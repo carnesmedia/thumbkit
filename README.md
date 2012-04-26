@@ -31,33 +31,43 @@ Thumbkit takes a path to a file, and saves a thumbnail for that file regardless
 of type. Certain types require different gems, but none are dependencies so
 you'll have to install them yourself.
 
+All settings can be set globally.
+
 ```ruby
-  image = Thumbkit.new('path/to/image.jpg')
-  image.thumbnail(60, 60)
+  Thumbkit.defaults = {
+    width: 60, height: 60,
+    colors: { foreground: '#333', background: '#eee' },
+    font: { family: 'Helvetica', pointsize: '14' },
+  }
 ```
 
-`path/to/image.jpg` will now be a 60x60 cropped image
+```ruby
+  Thumbkit.new('path/to/image.jpg').write_thumbnail
+```
+
+Will write a 60x60 cropped image to `path/to/image.jpg`.
 
 ```ruby
-  # TODO: should we accept strings? or just a path to a file
-  text = Thumbkit.new('path/to/text_file.txt',
+  text = Thumbkit.new('path/to/text_file.txt')
+
+  text.write_thumbnail(nil, {
+    width: 200, height: 200,
+    colors: { foreground: '#663854' },
+    font: { pointsize: '18' },
+  })
+
+```
+
+Will write a 200x200 cropped image to `path/to/text_file.png`.
+
+```ruby
+  audio = Thumbkit.new('path/to/audio.mp3')
+  audio.write_thumbnail('path/to/ouput.png', {
     colors: { foreground: '#fff', background: '#000' },
-    font: { family: 'Times New Roman', size: '10pt' }
-  )
-  text.thumbnail(60, 60)
+  })
 ```
 
-`path/to/text_file.png` will now be a 60x60 image
-
-```ruby
-  audio = Thumbkit.new('path/to/audio.mp3',
-    output: 'path/to/ouput.png',
-    colors: { foreground: '#fff', background: '#000' }
-  )
-  audio.thumbnail(60, 60)
-```
-
-`path/to/output.png` will now be a 60x60 image
+Will write a 60x60 cropped image to `path/to/output.png`.
 
 NOTE: When the output filename is inferred, the filetype will also be inferred
 depending on the input type. In general, image files thumbnails should be the
@@ -71,7 +81,7 @@ thumbnails should be png.
     include CarrierWave::Thumbkit
 
     version :thumbnail do
-      process :thumbkit
+      process :thumbkit => [200, 200, { colors: { foreground: '#ccc' } }]
     end
   end
 ```
