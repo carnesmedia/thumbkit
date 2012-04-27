@@ -10,3 +10,16 @@ describe Thumbkit do
     its(:type) { should == 'txt' }
   end
 end
+
+
+describe Thumbkit, '.defaults' do
+  subject { Thumbkit.defaults }
+
+  it 'returns defaults for colors' do
+    subject.should have_key(:colors)
+  end
+
+  it 'returns defaults for font' do
+    subject.should have_key(:font)
+  end
+end

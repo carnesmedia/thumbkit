@@ -2,12 +2,12 @@ require "thumbkit/version"
 
 class Thumbkit
   autoload :Processor, 'thumbkit/processor'
-  autoload :Defaults, 'thumbkit/defaults'
+  autoload :Options, 'thumbkit/options'
 
   attr_accessor :path, :filename, :type
 
   def self.defaults
-    @defaults ||= Thumbkit::Defaults.new({
+    @defaults ||= Thumbkit::Options.new({
       colors: {},
       font: {},
     })
