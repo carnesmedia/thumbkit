@@ -1,3 +1,3 @@
-module Thumbkit
+class Thumbkit
   VERSION = "0.0.1"
 end

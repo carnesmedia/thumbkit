@@ -86,6 +86,10 @@ thumbnails should be png.
   end
 ```
 
+## Other plans
+
+* Accept a StringIO instead of a pathname
+* Maybe use filemagic if available
 
 ## Contributing
 
