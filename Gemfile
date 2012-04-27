@@ -10,3 +10,6 @@ gem 'rspec'
 gem 'guard'
 gem 'guard-rspec'
 gem 'guard-bundler'
+
+gem 'mini_magick'
+gem 'waveform'
