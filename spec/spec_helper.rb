@@ -1,16 +1,30 @@
 require 'thumbkit'
 require 'fileutils'
 
-def path_to_fixture(fixture_name)
-  Pathname.new("spec/fixtures/#{ fixture_name }").expand_path
+module Helpers
+
+  def path_to_fixture(fixture_name)
+    Pathname.new("spec/fixtures/#{ fixture_name }").expand_path
+  end
+
+  def tmp_path
+    Pathname.new('spec/tmp').expand_path
+  end
 end
 
-
-def tmp_path
-  Pathname.new('spec/tmp').expand_path
+module ImageMacros
+  def its_size_should_be(size)
+    it "its size should be #{size}" do
+      r = `identify -ping -quiet -format "%wx%h" "#{subject}"`.chomp
+      r.should == size
+    end
+  end
 end
 
 RSpec.configure do |config|
+  config.extend ImageMacros
+  config.include Helpers
+
   def mkdir_safe(dir)
     Dir.mkdir(dir)
   rescue Errno::EEXIST
@@ -23,3 +37,4 @@ RSpec.configure do |config|
     FileUtils.rm_rf(tmp_path.to_s)
   end
 end
+

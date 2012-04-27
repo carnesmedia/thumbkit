@@ -1,9 +1,13 @@
 class Thumbkit::Processor
   autoload :Text, 'thumbkit/processor/text'
+  autoload :Audio, 'thumbkit/processor/audio'
 
   def self.processors
     @processors ||= {
       'txt' => 'Text',
+      'mp3' => 'Audio',
+      'wav' => 'Audio',
+      'm4a' => 'Audio',
     }
   end
 
