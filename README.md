@@ -62,6 +62,16 @@ other than .wav files.
 
 See https://github.com/benalavi/waveform for more on requirements.
 
+NOTE: As of 0.0.3 waveform fails on mono files (benalavi/waveform#4,
+benalavi/waveform#5. I've forked and fixed (see benalavi/waveform#6). Until my
+fix gets merged in you can use https://github.com/amiel/waveform/tree/thumbkit.
+Like so:
+
+```ruby
+gem 'thumbkit'
+gem 'waveform', git: 'https://github.com/amiel/waveform', branch: 'thumbkit'
+```
+
 ## Usage
 
 Thumbkit takes a path to a file, and saves a thumbnail for that file regardless

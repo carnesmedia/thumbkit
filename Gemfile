@@ -12,4 +12,4 @@ gem 'guard-rspec'
 gem 'guard-bundler'
 
 gem 'mini_magick'
-gem 'waveform'
+gem 'waveform', git: 'https://github.com/amiel/waveform', branch: 'thumbkit'
