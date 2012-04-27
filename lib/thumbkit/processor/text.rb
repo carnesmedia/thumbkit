@@ -1,9 +1,11 @@
+class Thumbkit::Processor::Text < Thumbkit::Processor
 
-class Thumbkit::Processors::Text
   attr_accessor :path
   def initialize(path)
     @path = path
   end
+
+
 
 
   # Saving stuff for later.

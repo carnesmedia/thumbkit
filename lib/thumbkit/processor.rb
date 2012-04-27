@@ -1,5 +1,5 @@
-module Thumbkit::Processors
-  autoload :Text, 'thumbkit/processors/text'
+class Thumbkit::Processor
+  autoload :Text, 'thumbkit/processor/text'
 
   def self.processors
     @processors ||= {

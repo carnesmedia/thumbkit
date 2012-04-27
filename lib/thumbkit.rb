@@ -1,7 +1,7 @@
 require "thumbkit/version"
 
 class Thumbkit
-  autoload :Processors, 'thumbkit/processors'
+  autoload :Processor, 'thumbkit/processor'
   autoload :Defaults, 'thumbkit/defaults'
 
   attr_accessor :path, :filename, :type
@@ -20,6 +20,6 @@ class Thumbkit
   end
 
   def processor
-    @processor ||= Thumbkit::Processors.processor_for(type).new(path)
+    @processor ||= Thumbkit::Processor.processor_for(type).new(path)
   end
 end
