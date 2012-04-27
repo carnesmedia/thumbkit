@@ -35,11 +35,11 @@ Or install it yourself as:
 
 ## Requirements
 
-#### Image thumbnails
+### Image thumbnails
 
 Thumbkit uses MiniMagick to resize and crop images.
 
-#### Text thumbnails
+### Text thumbnails
 
 Thumbkit uses MiniMagick to render text files, and therefore depends on the
 [minimagick](https://github.com/probablycorey/mini_magick) gem and imagemagick.
@@ -48,12 +48,12 @@ Fonts:
 
 The list of fonts available to imagemagick can be found with `identify -list Font`
 
-#### HTML thumbnails
+### HTML thumbnails
 
 HTML thumbnails are not yet supported, but the plan is to use phantomjs to
 render html files.
 
-#### Audio thumbnails
+### Audio thumbnails
 
 Thumbkit uses the [waveform](https://github.com/benalavi/waveform) gem to render
 audio files. [waveform](https://github.com/benalavi/waveform) depends on
@@ -78,11 +78,21 @@ All settings can be set globally.
   }
 ```
 
+### Image thumbnails
+
 ```ruby
   Thumbkit.new('path/to/image.jpg').write_thumbnail # => 'path/to/image.jpg'
 ```
 
 Will write a 60x60 cropped image to `path/to/image.jpg`.
+
+
+NOTE: When the output filename is inferred, the filetype will also be inferred
+depending on the input type. In general, image files thumbnails should be the
+same type as their original. Video thumbnails should be jpg. Text and audio
+thumbnails should be png.
+
+### Text thumbnails
 
 ```ruby
   text = Thumbkit.new('path/to/text_file.txt')
@@ -97,6 +107,8 @@ Will write a 60x60 cropped image to `path/to/image.jpg`.
 
 Will write a 200x200 cropped image to `path/to/text_file.png`.
 
+### Audio thumbnails
+
 ```ruby
   audio = Thumbkit.new('path/to/audio.mp3')
   audio.write_thumbnail('path/to/ouput.png', {
@@ -106,15 +118,13 @@ Will write a 200x200 cropped image to `path/to/text_file.png`.
 
 Will write a 60x60 cropped image to `path/to/output.png`.
 
+### Composite thumbnails
+
 ```ruby
   composite = Thumbkit.new(['path/to/audio.mp3', 'path/to/text_file.txt'])
   composite.write_thumbnail('path/to/collection.png')
 ```
 
-NOTE: When the output filename is inferred, the filetype will also be inferred
-depending on the input type. In general, image files thumbnails should be the
-same type as their original. Video thumbnails should be jpg. Text and audio
-thumbnails should be png.
 
 ### CarrierWave usage
 
