@@ -106,6 +106,11 @@ Will write a 200x200 cropped image to `path/to/text_file.png`.
 
 Will write a 60x60 cropped image to `path/to/output.png`.
 
+```ruby
+  composite = Thumbkit.new(['path/to/audio.mp3', 'path/to/text_file.txt'])
+  composite.write_thumbnail('path/to/collection.png')
+```
+
 NOTE: When the output filename is inferred, the filetype will also be inferred
 depending on the input type. In general, image files thumbnails should be the
 same type as their original. Video thumbnails should be jpg. Text and audio
