@@ -20,6 +20,10 @@ class Thumbkit
   end
 
   def processor
-    @processor ||= Thumbkit::Processor.processor_for(type).new(path)
+    @processor ||= Thumbkit::Processor.processor_for(type)
+  end
+
+  def write_thumbnail(outfile = nil, options = {})
+    processor.new(path, outfile, options).write
   end
 end

@@ -6,7 +6,7 @@ describe Thumbkit do
 
     its(:filename) { should == 'text_file.txt' }
     its(:path) { should == File.expand_path(path_to_fixture('text_file.txt')) }
-    its(:processor) { should be_kind_of(Thumbkit::Processor::Text) }
+    its(:processor) { should == Thumbkit::Processor::Text }
     its(:type) { should == 'txt' }
   end
 end
