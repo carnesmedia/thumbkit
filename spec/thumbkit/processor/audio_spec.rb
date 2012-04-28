@@ -12,7 +12,7 @@ describe Thumbkit::Processor::Audio do
   its(:path) { should == path }
 
   describe '#write' do
-    let(:outfile) { tmp_path.join('audio-test.png').to_s }
+    let(:outfile) { path_for_output('audio-test.png').to_s }
     subject { processor.write }
 
     it 'returns the path of the outfile' do
@@ -24,5 +24,13 @@ describe Thumbkit::Processor::Audio do
     end
 
     its_size_should_be('200x200')
+
+    context 'with size settings' do
+      let(:outfile) { path_for_output('audio-test-300x250').to_s }
+      # Let's change a few settings for manual inspection
+      let(:options) { { width: 300, height: 250, colors: { background: :transparent, foreground: '#ffeecc' } } }
+
+      its_size_should_be('300x250')
+    end
   end
 end

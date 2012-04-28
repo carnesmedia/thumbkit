@@ -4,11 +4,15 @@ require 'fileutils'
 module Helpers
 
   def path_to_fixture(fixture_name)
-    Pathname.new("spec/fixtures/#{ fixture_name }").expand_path
+    Pathname.new("spec/fixtures").join(fixture_name).expand_path
   end
 
   def tmp_path
-    Pathname.new('spec/tmp').expand_path
+    Pathname.new("spec/tmp")
+  end
+
+  def path_for_output(outfile = '')
+    tmp_path.join(outfile).expand_path
   end
 end
 
@@ -34,7 +38,7 @@ RSpec.configure do |config|
   config.around(:each) do |example|
     mkdir_safe tmp_path.to_s
     example.run
-    FileUtils.rm_rf(tmp_path.to_s)
+    # FileUtils.rm_rf(tmp_path.to_s)
   end
 end
 

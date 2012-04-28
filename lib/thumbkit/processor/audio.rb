@@ -3,11 +3,27 @@ require 'waveform'
 # TODO: Take and use options
 class Thumbkit::Processor::Audio < Thumbkit::Processor
 
+  def auto_outfile
+    # raise NotImplementedError
+  end
+
   def write
-    options = { force: true, method: :rms, width: 200, height: 200 }
-    Waveform.new(path).generate(outfile, options)
+    Waveform.new(path).generate(outfile, build_options)
 
     outfile
+  end
+
+  private
+
+  def build_options
+    {
+      force: true,
+      method: :rms, # Hard-coded for now.
+      width: options[:width],
+      height: options[:height],
+      color: options[:colors][:foreground],
+      background_color: options[:colors][:background],
+    }
   end
 
 end

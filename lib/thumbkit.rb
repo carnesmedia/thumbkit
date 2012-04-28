@@ -8,8 +8,16 @@ class Thumbkit
 
   def self.defaults
     @defaults ||= Thumbkit::Options.new({
-      colors: {},
-      font: {},
+      width: 200,
+      height: 200,
+      colors: {
+        background: '#eeeeee',
+        foreground: '#888888',
+      },
+      font: {
+        family: 'Times-Regular', # Try `identify -list Font`
+        size: '18', # In points
+      },
     })
   end
 

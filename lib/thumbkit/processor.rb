@@ -18,11 +18,11 @@ class Thumbkit::Processor
   end
 
 
-  attr_accessor :path, :outfile, :option
+  attr_accessor :path, :outfile, :options
   def initialize(path, outfile, options)
     @path = path
     @outfile = outfile || auto_outfile
-    @options = options
+    @options = Thumbkit.defaults + options
   end
 
   def auto_outfile
