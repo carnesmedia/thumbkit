@@ -83,7 +83,7 @@ All settings can be set globally.
 ```ruby
   Thumbkit.defaults = {
     width: 60, height: 60,
-    colors: { foreground: '#333', background: '#eee' },
+    colors: { foreground: '#333333', background: '#eeeeee' },
     font: { family: 'Helvetica', pointsize: '14' },
   }
 ```
@@ -112,21 +112,30 @@ thumbnails should be png.
     colors: { foreground: '#663854' },
     font: { pointsize: '18' },
   }) # => 'path/to/text_file.png'
-
 ```
 
 Will write a 200x200 cropped image to `path/to/text_file.png`.
+
+#### RTL support
+
+```ruby
+  text = Thumbkit.new('path/to/text_file.txt')
+  text.write_thumbnail(nil, font: { direction: 'right-to-left' })
+```
 
 ### Audio thumbnails
 
 ```ruby
   audio = Thumbkit.new('path/to/audio.mp3')
   audio.write_thumbnail('path/to/ouput.png', {
-    colors: { foreground: '#fff', background: '#000' },
+    colors: { foreground: '#ffffff', background: '#000000' },
   }) # => 'path/to/output.png'
 ```
 
 Will write a 60x60 cropped image to `path/to/output.png`.
+
+Note that while imagemagick supports most color specification formats, waveform
+only takes 6 digit hex values.
 
 ### Composite thumbnails
 
@@ -143,7 +152,7 @@ Will write a 60x60 cropped image to `path/to/output.png`.
     include CarrierWave::Thumbkit
 
     version :thumbnail do
-      process :thumbkit => [200, 200, { colors: { foreground: '#ccc' } }]
+      process :thumbkit => [200, 200, { colors: { foreground: '#cccccc' } }]
     end
   end
 ```
