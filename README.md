@@ -117,8 +117,6 @@ thumbnails should be png.
 
 Will write a 200x200 cropped image to `path/to/text_file.png`.
 
-Text thumbnails only support PNG output.
-
 #### RTL support
 
 ```ruby

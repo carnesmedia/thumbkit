@@ -4,7 +4,7 @@ require 'waveform'
 class Thumbkit::Processor::Audio < Thumbkit::Processor
 
   def auto_outfile
-    # raise NotImplementedError
+    self.class.force_extension(path, 'png')
   end
 
   def write

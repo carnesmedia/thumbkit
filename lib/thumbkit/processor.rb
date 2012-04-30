@@ -18,6 +18,11 @@ class Thumbkit::Processor
   end
 
 
+  def self.force_extension(filename, extension)
+    dir, fname = File.split(filename)
+    File.join(dir, "#{ File.basename(fname, '.*') }.#{ extension }")
+  end
+
   attr_accessor :path, :outfile, :options
   def initialize(path, outfile, options)
     @path = path

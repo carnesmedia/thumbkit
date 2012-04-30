@@ -2,13 +2,25 @@ require 'spec_helper'
 
 describe Thumbkit::Processor do
   describe '.processor_for' do
-
     subject { Thumbkit::Processor.processor_for(extension) }
     context 'for a .txt' do
       let(:extension) { 'txt' }
       it { should == Thumbkit::Processor::Text }
     end
 
+    context 'for a .mp3' do
+      let(:extension) { 'mp3' }
+      it { should == Thumbkit::Processor::Audio }
+    end
+  end
+
+  describe '.force_extension' do
+    let(:extension) { 'png' }
+    subject { Thumbkit::Processor.force_extension path, extension }
+    context 'given an mp3 file' do
+      let(:path) { 'foo/bar/blah.mp3' }
+      it { should == 'foo/bar/blah.png' }
+    end
   end
 
   describe '#initialize' do

@@ -11,6 +11,7 @@ class Thumbkit
       width: 200,
       height: 200,
       colors: {
+        # Colors must be 6-digit hex
         background: '#eeeeee',
         foreground: '#888888',
       },

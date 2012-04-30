@@ -18,9 +18,16 @@ end
 
 module ImageMacros
   def its_size_should_be(size)
-    it "its size should be #{size}" do
+    it "its size should be #{ size }" do
       r = `identify -ping -quiet -format "%wx%h" "#{subject}"`.chomp
       r.should == size
+    end
+  end
+
+  def its_mimetype_should_be(mime)
+    it "its mime type should be #{ mime }" do
+      m = `file --mime-type -n -N "#{ subject }"|cut -d' ' -f2`.chomp
+      m.should == mime
     end
   end
 end

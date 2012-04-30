@@ -8,7 +8,7 @@ require 'mini_magick'
 class Thumbkit::Processor::Text < Thumbkit::Processor
 
   def auto_outfile
-    # raise NotImplementedError
+    self.class.force_extension(path, 'png')
   end
 
   def write
@@ -27,6 +27,10 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
 
   # Regexes copies from www.frequency-decoder.com/demo/detect-text-direction/
   # and https://github.com/geeksoflondon/grid4rails/issues/120
+  #
+  # Currently, this detects the direction by checking if *any* character in the
+  # input is an RTL character.
+  # TODO: Maybe check for a percentage of RTL characters?
   def direction
     # For future reference
     # Hebrew - U+05D0 to U+05EA, U+05F0 to U+05F2, U+05BE, U+05C0, U+05C3, U+05F3, U+05F4, U+05B0 to U+05C4, U+0591 to U+05AF.
@@ -36,7 +40,6 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
 
     dir = options[:font][:direction]
     if dir == :auto
-      # Current functionality
       if /[\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC]/.match(IO.read(path))
         'right-to-left'
       else
@@ -59,6 +62,9 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
       mogrify.font options[:font][:family]
       mogrify.direction direction if direction
       mogrify.gravity 'Center'
+      # While we convert to png, imagemagick will still output the format given
+      # by the extension. This allows users to costumize the output with the
+      # outfile extension.
       mogrify << '-format png'
       mogrify.trim
       mogrify.resize '25%'

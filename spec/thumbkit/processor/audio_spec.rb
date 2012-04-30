@@ -11,6 +11,27 @@ describe Thumbkit::Processor::Audio do
 
   its(:path) { should == path }
 
+  describe '#auto_outflie' do
+    subject { processor.outfile }
+    context 'when nothing specified' do
+      it { should == File.expand_path(path_to_fixture('16Hz-20kHz-Exp-1f-5sec.png')) }
+    end
+
+    context 'with an extensionless outfile' do
+      let(:outfile) { 'foo.' }
+      it { should == 'foo.png' }
+    end
+
+    # Not sure what to do in this case. Waveform just outputs a png file no
+    # matter what...
+    #
+    # context 'with a jpg specified' do
+    #   let(:outfile) { path_for_output('audio-test.jpg').to_s }
+    #   before { processor.write }
+    #   it { should == path_for_output('audio_test.jpg').to_s }
+    # end
+  end
+
   describe '#write' do
     let(:outfile) { path_for_output('audio-test.png').to_s }
     subject { processor.write }
