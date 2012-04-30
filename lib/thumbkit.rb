@@ -17,7 +17,7 @@ class Thumbkit
       font: {
         family: 'Arial-Regular', # Try `identify -list Font`
         size: '18', # In points
-        direction: nil, # use right-to-left
+        direction: :auto, # nil, :auto, 'right-to-left', or 'left-to-right'
       },
     })
   end

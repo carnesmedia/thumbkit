@@ -25,6 +25,28 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
     MiniMagick::CommandBuilder.new('mogrify')
   end
 
+  # Regexes copies from www.frequency-decoder.com/demo/detect-text-direction/
+  # and https://github.com/geeksoflondon/grid4rails/issues/120
+  def direction
+    # For future reference
+    # Hebrew - U+05D0 to U+05EA, U+05F0 to U+05F2, U+05BE, U+05C0, U+05C3, U+05F3, U+05F4, U+05B0 to U+05C4, U+0591 to U+05AF.
+    # Arabic - U+0600 to U+06FF, U+0750 to U+077F, U+FB50 to U+FDFF, U+FE70 to U+FEFF, U+10E60 to U+10E7F.
+    # ltrChars            = 'A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF'+'\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF',
+    # rtlChars            = '\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC',
+
+    dir = options[:font][:direction]
+    if dir == :auto
+      # Current functionality
+      if /[\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC]/.match(IO.read(path))
+        'right-to-left'
+      else
+        'left-to-right'
+      end
+    else
+      dir
+    end
+  end
+
   # Example generated command
   # mogrify -density "288" -background "#ccc" -fill "#333" -pointsize "18" -antialias -font "Helvetica" -format png -trim -resize "%25" +repage -crop "200x200+10+10" +repage -write test.png test.txt
   def build_command
@@ -35,7 +57,7 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
       mogrify.pointsize options[:font][:size]
       mogrify.antialias
       mogrify.font options[:font][:family]
-      mogrify.direction options[:font][:direction] if options[:font][:direction]
+      mogrify.direction direction if direction
       mogrify.gravity 'Center'
       mogrify << '-format png'
       mogrify.trim

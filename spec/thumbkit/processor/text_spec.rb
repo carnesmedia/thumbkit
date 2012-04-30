@@ -30,7 +30,7 @@ describe Thumbkit::Processor::Text do
     its_size_should_be('200x200')
 
     context 'with size settings' do
-      let(:outfile) { path_for_output('text-test-300x250').to_s }
+      let(:outfile) { path_for_output('text-test-300x250.png').to_s }
       # Let's change a few settings for manual inspection
       let(:options) { { width: 300, height: 250, colors: { background: :transparent, foreground: '#334455' } } }
 
@@ -42,15 +42,17 @@ describe Thumbkit::Processor::Text do
       let(:fixture) { 'greek.txt' }
       let(:outfile) { path_for_output('greek.png').to_s }
       it('writes a file') { File.should exist(subject) }
+      it('autodetects left-to-right') { processor.__send__(:direction).should == 'left-to-right' }
       its_size_should_be('200x200')
       # Manually check the file to verify unicode stuff worked
     end
 
     context 'with an arabic file' do
-      let(:options) { { font: { direction: 'right-to-left' } } }
+      let(:options) { { font: { direction: :auto } } }
       let(:fixture) { 'arabic.txt' }
       let(:outfile) { path_for_output('arabic.png').to_s }
       it('writes a file') { File.should exist(subject) }
+      it('autodetects right-to-left') { processor.__send__(:direction).should == 'right-to-left' }
       its_size_should_be('200x200')
       # Manually check the file to verify unicode stuff and right-to-left worked
     end
@@ -60,6 +62,7 @@ describe Thumbkit::Processor::Text do
       let(:fixture) { 'hebrew.txt' }
       let(:outfile) { path_for_output('hebrew.png').to_s }
       it('writes a file') { File.should exist(subject) }
+      it('is right-to-left') { processor.__send__(:direction).should == 'right-to-left' }
       its_size_should_be('400x200')
       # Manually check the file to verify unicode stuff and right-to-left worked
     end

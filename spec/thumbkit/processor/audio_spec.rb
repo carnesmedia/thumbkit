@@ -26,7 +26,7 @@ describe Thumbkit::Processor::Audio do
     its_size_should_be('200x200')
 
     context 'with size settings' do
-      let(:outfile) { path_for_output('audio-test-300x250').to_s }
+      let(:outfile) { path_for_output('audio-test-300x250.png').to_s }
       # Let's change a few settings for manual inspection
       let(:options) { { width: 300, height: 250, colors: { background: :transparent, foreground: '#ffeecc' } } }
 

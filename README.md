@@ -120,8 +120,16 @@ Will write a 200x200 cropped image to `path/to/text_file.png`.
 
 ```ruby
   text = Thumbkit.new('path/to/text_file.txt')
-  text.write_thumbnail(nil, font: { direction: 'right-to-left' })
+  text.write_thumbnail(nil, font: { direction: :auto }) # Default, detect automatically
+  text.write_thumbnail(nil, font: { direction: 'right-to-left' }) # Force RTL
 ```
+
+`direction` options:
+
+* `nil`: don't specify the option to imagemagick (OS default)
+* `:auto`: try to detect. Currently, this switches to `'right-to-left'` if there
+  are *any* RTL characters in the input.
+* `'right-to-left'`, `'left-to-right'`: force LTR or RTL
 
 ### Audio thumbnails
 
@@ -135,7 +143,8 @@ Will write a 200x200 cropped image to `path/to/text_file.png`.
 Will write a 60x60 cropped image to `path/to/output.png`.
 
 Note that while imagemagick supports most color specification formats, waveform
-only takes 6 digit hex values.
+only takes 6 digit hex values. However, there is one special case for the symbol
+:transparent.
 
 ### Composite thumbnails
 
