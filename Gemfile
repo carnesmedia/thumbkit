@@ -13,3 +13,4 @@ gem 'guard-bundler'
 
 gem 'mini_magick'
 gem 'waveform', git: 'https://github.com/amiel/waveform', branch: 'thumbkit'
+gem 'oily_png'

@@ -57,7 +57,7 @@ render html files.
 
 Thumbkit uses the [waveform](https://github.com/benalavi/waveform) gem to render
 audio files. [waveform](https://github.com/benalavi/waveform) depends on
-libsndfile. ffmpeg is required in order to generate thumbnails from anything
+libsndfile. **ffmpeg** is required in order to generate thumbnails from anything
 other than .wav files.
 
 See https://github.com/benalavi/waveform for more on requirements.
@@ -70,6 +70,7 @@ Like so:
 ```ruby
 gem 'thumbkit'
 gem 'waveform', git: 'https://github.com/amiel/waveform', branch: 'thumbkit'
+gem 'oily_png' # Optional. For presumably faster png cration with waveform
 ```
 
 ## Usage
@@ -116,6 +117,8 @@ thumbnails should be png.
 
 Will write a 200x200 cropped image to `path/to/text_file.png`.
 
+Text thumbnails only support PNG output.
+
 #### RTL support
 
 ```ruby
@@ -145,6 +148,8 @@ Will write a 60x60 cropped image to `path/to/output.png`.
 Note that while imagemagick supports most color specification formats, waveform
 only takes 6 digit hex values. However, there is one special case for the symbol
 :transparent.
+
+Audio thumbnails only support PNG output.
 
 ### Composite thumbnails
 
