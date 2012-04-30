@@ -1,5 +1,9 @@
 require 'mini_magick'
 
+# NOTES: For now, use reverse markdown for html
+#   https://github.com/xijo/reverse_markdown
+#   https://github.com/cousine/downmark_it
+
 # TODO: Take and use options
 class Thumbkit::Processor::Text < Thumbkit::Processor
 
@@ -31,15 +35,17 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
       mogrify.pointsize options[:font][:size]
       mogrify.antialias
       mogrify.font options[:font][:family]
+      mogrify.direction options[:font][:direction] if options[:font][:direction]
+      mogrify.gravity 'Center'
       mogrify << '-format png'
       mogrify.trim
       mogrify.resize '25%'
       mogrify << '+repage'
-      # TODO: Handle the offset better
-      mogrify.crop "#{ options[:width] }x#{ options[:height] }+10+10"
+      mogrify.crop "#{ options[:width] }x#{ options[:height] }+0+0"
+      mogrify.extent "#{ options[:width] }x#{ options[:height] }"
       mogrify << '+repage'
       mogrify.write outfile
-      mogrify << path
+      mogrify << "label:@#{path}"
     end
   end
 
@@ -47,7 +53,7 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
   def run(command_builder)
     command = command_builder.command
 
-    sub = Subexec.run(command, :timeout => MiniMagick.timeout)
+    sub = Subexec.run(command, timeout: MiniMagick.timeout)
 
     if sub.exitstatus != 0
 

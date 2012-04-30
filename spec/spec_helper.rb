@@ -38,7 +38,7 @@ RSpec.configure do |config|
   config.around(:each) do |example|
     mkdir_safe tmp_path.to_s
     example.run
-    # FileUtils.rm_rf(tmp_path.to_s)
+    FileUtils.rm_rf(tmp_path.to_s)
   end
 end
 

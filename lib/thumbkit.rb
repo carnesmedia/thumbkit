@@ -15,8 +15,9 @@ class Thumbkit
         foreground: '#888888',
       },
       font: {
-        family: 'Times-Regular', # Try `identify -list Font`
+        family: 'Arial-Regular', # Try `identify -list Font`
         size: '18', # In points
+        direction: nil, # use right-to-left
       },
     })
   end

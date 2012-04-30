@@ -32,9 +32,37 @@ describe Thumbkit::Processor::Text do
     context 'with size settings' do
       let(:outfile) { path_for_output('text-test-300x250').to_s }
       # Let's change a few settings for manual inspection
-      let(:options) { { width: 300, height: 250, colors: { background: :transparent, foreground: '#ffeecc' } } }
+      let(:options) { { width: 300, height: 250, colors: { background: :transparent, foreground: '#334455' } } }
 
       its_size_should_be('300x250')
+      # Manually check the file to verify colors
     end
+
+    context 'with some greek letters' do
+      let(:fixture) { 'greek.txt' }
+      let(:outfile) { path_for_output('greek.png').to_s }
+      it('writes a file') { File.should exist(subject) }
+      its_size_should_be('200x200')
+      # Manually check the file to verify unicode stuff worked
+    end
+
+    context 'with an arabic file' do
+      let(:options) { { font: { direction: 'right-to-left' } } }
+      let(:fixture) { 'arabic.txt' }
+      let(:outfile) { path_for_output('arabic.png').to_s }
+      it('writes a file') { File.should exist(subject) }
+      its_size_should_be('200x200')
+      # Manually check the file to verify unicode stuff and right-to-left worked
+    end
+
+    context 'with an hebrew file' do
+      let(:options) { { font: { direction: 'right-to-left', size: '12' }, width: 400 } }
+      let(:fixture) { 'hebrew.txt' }
+      let(:outfile) { path_for_output('hebrew.png').to_s }
+      it('writes a file') { File.should exist(subject) }
+      its_size_should_be('400x200')
+      # Manually check the file to verify unicode stuff and right-to-left worked
+    end
+
   end
 end

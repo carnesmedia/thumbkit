@@ -1,0 +1,17 @@
+Hebrew
+
+Hebrew alphabet
+’ b g d h w z H T y kk l mm nn s ‘ pp cc q r š ś t
+  א ב ג ד ה ו ז ח ט י כך ל מם נן ס ע פף צץ ק ר שׁ שׂ ת
+Letters with dagesh or mapiq
+’ b g d h w z   T y kk l m  n  s   pp c  q r š ś t
+  אּ בּ גּ דּ הּ וּ זּ   טּ יּ כּךּ לּ מּ  נּ  סּ   פּףּ צּ  קּ רּ שּׁ שּׂ תּ
+Yiddish digraphs
+ww   wy   yy
+  װ   ױ   ײ
+Letters with rafeh
+v   x   f
+  בֿ   כֿ   פֿ
+Vowels with points
+a   å   o   u   i   ai
+  אַ   אָ   וֹ   וּ   יִ   ײַ

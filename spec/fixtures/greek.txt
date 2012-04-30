@@ -1,0 +1,14 @@
+Capital letters
+Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω
+Capital letters with tonos
+Ά   Έ   Ή   Ί   Ό   Ύ   Ώ
+Capital letters with dialytika
+Ϊ   Ϋ
+Small letters
+α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σς τ υ φ χ ψ ω
+Small letters with tonos
+ά   έ   ή   ί   ό   ύ   ώ
+Small letters with dialytika
+ϊ   ϋ
+Small letters with dialytika and tonos
+ΐ   ΰ
