@@ -3,6 +3,7 @@ require "thumbkit/version"
 class Thumbkit
   autoload :Processor, 'thumbkit/processor'
   autoload :Options, 'thumbkit/options'
+  autoload :Adapters, 'thumbkit/adapters'
 
   attr_accessor :path, :filename, :type
 
@@ -10,7 +11,7 @@ class Thumbkit
     @defaults ||= Thumbkit::Options.new({
       width: 200,
       height: 200,
-      # Try `identify -list Gravity` for a list of available options
+      # Run `identify -list Gravity` for a list of available options
       gravity: 'Center',
       colors: {
         # Colors must be 6-digit hex
@@ -18,7 +19,7 @@ class Thumbkit
         foreground: '#888888',
       },
       font: {
-        # Try `identify -list Font` for available font options
+        # Run `identify -list Font` for available font options
         family: 'Arial-Regular',
         size: '18', # In points
         direction: :auto, # nil, :auto, 'right-to-left', or 'left-to-right'
@@ -33,7 +34,7 @@ class Thumbkit
   def initialize(path)
     @path = File.expand_path(path)
     @filename = File.basename(@path)
-    @type = File.extname(filename)[1..-1]
+    @type = File.extname(@filename)[1..-1]
   end
 
   def processor

@@ -160,18 +160,26 @@ NOT YET IMPLEMENTED
 
 ### CarrierWave usage
 
-NOT YET IMPLEMENTED
-
 ```ruby
   class MyUploader < CarrierWave::Uploader::Base
-    include CarrierWave::Thumbkit
+    include Thumbkit::Adapters::CarrierWave
 
     version :thumbnail do
-      process :thumbkit => [200, 200, { colors: { foreground: '#cccccc' } }]
+      # See [Configuration](#configuration) below for more about options.
+      process thumbkit: [200, 200, { colors: { foreground: '#cccccc' } }]
+
+      # This tells CarrierWave where the version file can be found since
+      # thumbkit can write a to a file with a different extension than the
+      # original.
+      #
+      # See https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Customize-your-version-file-names
+      # for more about
+      def full_filename(for_file = model.file.file)
+        [version_name, thumbkit_filename(for_file)].join('_')
+      end
     end
   end
 ```
-
 
 ## Configuration
 
