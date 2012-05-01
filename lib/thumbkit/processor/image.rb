@@ -34,7 +34,7 @@ class Thumbkit::Processor::Image < Thumbkit::Processor
         rows = (scale * (rows + 0.5)).round
         cmd.resize "#{ cols }x#{ rows }"
       end
-      cmd.gravity 'Center'
+      cmd.gravity options[:gravity].to_s
       cmd.background options[:colors][:background].to_s
 
       if cols != options[:width] || rows != options[:height]

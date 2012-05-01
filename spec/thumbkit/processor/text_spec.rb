@@ -53,6 +53,19 @@ describe Thumbkit::Processor::Text do
       # Manually check the file to verify colors
     end
 
+    context 'with gravity settings' do
+      let(:outfile) { path_for_output('text-test-northeast-150x250.png').to_s }
+      # Let's change a few settings for manual inspection
+      let(:options) { {
+        width: 150, height: 250, gravity: 'NorthEast',
+        colors: { background: :transparent, foreground: '#334455' }
+      } }
+
+      its_size_should_be('150x250')
+      its_mimetype_should_be('image/png')
+      # Manually check the file to verify colors and gravity
+    end
+
     context 'with some greek letters' do
       let(:fixture) { 'greek.txt' }
       let(:outfile) { path_for_output('greek.png').to_s }

@@ -10,13 +10,16 @@ class Thumbkit
     @defaults ||= Thumbkit::Options.new({
       width: 200,
       height: 200,
+      # Try `identify -list Gravity` for a list of available options
+      gravity: 'Center',
       colors: {
         # Colors must be 6-digit hex
         background: '#eeeeee',
         foreground: '#888888',
       },
       font: {
-        family: 'Arial-Regular', # Try `identify -list Font`
+        # Try `identify -list Font` for available font options
+        family: 'Arial-Regular',
         size: '18', # In points
         direction: :auto, # nil, :auto, 'right-to-left', or 'left-to-right'
       },

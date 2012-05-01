@@ -55,11 +55,11 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
       mogrify.density((72 * 4).to_s)
       mogrify.background options[:colors][:background].to_s
       mogrify.fill options[:colors][:foreground].to_s
-      mogrify.pointsize options[:font][:size]
+      mogrify.pointsize options[:font][:size].to_s
       mogrify.antialias
       mogrify.font options[:font][:family]
       mogrify.direction direction if direction
-      mogrify.gravity 'Center'
+      mogrify.gravity options[:gravity].to_s
       # While we convert to png, imagemagick will still output the format given
       # by the extension. This allows users to costumize the output with the
       # outfile extension.

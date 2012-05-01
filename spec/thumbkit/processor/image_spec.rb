@@ -52,6 +52,16 @@ describe Thumbkit::Processor::Image do
       its_mimetype_should_be('image/png')
     end
 
+    context 'with size and gravity settings' do
+      let(:outfile) { path_for_output('resize_test_southwest_300x100.png').to_s }
+      # Let's change a few settings for manual inspection
+      let(:options) { { width: 300, height: 100, gravity: 'SouthWest' } }
+
+      its_size_should_be('300x100')
+      its_mimetype_should_be('image/png')
+    end
+
+
    context 'with size settings larger than the image' do
       let(:outfile) { path_for_output('resize_test_600x600.png').to_s }
       # Let's change a few settings for manual inspection
