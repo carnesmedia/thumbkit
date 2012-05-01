@@ -1,13 +1,13 @@
 # Thumbkit
 
+Thumbkit makes thumbnails from a variety of media types.
+Thumbkit is designed to work with carrierwave but does not require it.
+
 > it's like quicklook for carrierwave :)
 >
 > -- <cite>[Emmanuel Gomez][1]</cite>
 
  [1]:https://github.com/emmanuel
-
-Thumbkit makes thumbnails from a variety of media types.
-Thumbkit is designed to work with carrierwave but does not require it.
 
 ## Synopsis
 
@@ -23,14 +23,18 @@ See [Usage](#usage) below for more examples
 
 Add this line to your application's Gemfile:
 
-    gem 'thumbkit'
-    gem 'mini_magick' # For text or image thumbnails
-    gem 'waveform' # For audio thumbnails
-    gem 'oily_png' # Optional, for presumably faster audio thumbnails
+```ruby
+gem 'thumbkit'
+gem 'mini_magick' # For text or image thumbnails
+gem 'waveform' # For audio thumbnails
+gem 'oily_png' # Optional, for presumably faster audio thumbnails
+```
 
 And then execute:
 
-    $ bundle
+```shell
+$ bundle
+```
 
 Please see [Requirements](#requirements) for more information about each
 thumbnail type.
@@ -72,8 +76,11 @@ other than .wav files.
 
 See https://github.com/benalavi/waveform for more on requirements.
 
-NOTE: As of 0.0.3 waveform fails on mono files (benalavi/waveform#4,
-benalavi/waveform#5. I've forked and fixed (see benalavi/waveform#6). Until my
+NOTE: As of 0.0.3 waveform fails on mono files
+([benalavi/waveform#4](https://github.com/benalavi/waveform/issues/4),
+[benalavi/waveform#5](https://github.com/benalavi/waveform/issues/5)).
+I've forked and fixed the issue (see
+[benalavi/waveform#6](https://github.com/benalavi/waveform/pull/6)). Until my
 fix gets merged in you can use https://github.com/amiel/waveform/tree/thumbkit.
 Like so:
 
@@ -165,7 +172,7 @@ NOT YET IMPLEMENTED
     include Thumbkit::Adapters::CarrierWave
 
     version :thumbnail do
-      # See [Configuration](#configuration) below for more about options.
+      # See Configuration below for more about options.
       process thumbkit: [200, 200, { colors: { foreground: '#cccccc' } }]
 
       # This tells CarrierWave where the version file can be found since
