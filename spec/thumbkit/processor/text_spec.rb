@@ -68,10 +68,11 @@ describe Thumbkit::Processor::Text do
 
     context 'with some greek letters' do
       let(:fixture) { 'greek.txt' }
+      let(:options) { { width: 400, height: 400 } }
       let(:outfile) { path_for_output('greek.png').to_s }
       it('writes a file') { File.should exist(subject) }
       it('autodetects left-to-right') { processor.__send__(:direction).should == 'left-to-right' }
-      its_size_should_be('200x200')
+      its_size_should_be('400x400')
       its_mimetype_should_be('image/png')
       # Manually check the file to verify unicode stuff worked
     end

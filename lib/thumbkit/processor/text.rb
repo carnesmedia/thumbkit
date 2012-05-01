@@ -59,7 +59,8 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
       mogrify.antialias
       mogrify.font options[:font][:family]
       mogrify.direction direction if direction
-      mogrify.gravity options[:gravity].to_s
+      mogrify.gravity options[:gravity].to_s if options[:gravity]
+
       # While we convert to png, imagemagick will still output the format given
       # by the extension. This allows users to costumize the output with the
       # outfile extension.
@@ -70,6 +71,8 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
       mogrify.crop "#{ options[:width] }x#{ options[:height] }+0+0"
       mogrify.extent "#{ options[:width] }x#{ options[:height] }"
       mogrify << '+repage'
+      # This extra gravity call prevents left-to-right text from rendering centered
+      mogrify.gravity 'NorthWest'
       mogrify.write outfile
       mogrify << "label:@#{path}"
     end
