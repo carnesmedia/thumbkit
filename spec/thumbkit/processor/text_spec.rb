@@ -18,10 +18,10 @@ describe Thumbkit::Processor::Text do
       it { should == File.expand_path(path_to_fixture('text_file.png')) }
     end
 
-    context 'with an extensionless outfile' do
-      let(:outfile) { 'foo.' }
-      it { should == 'foo.png' }
-    end
+    # context 'with an extensionless outfile' do
+    #   let(:outfile) { 'foo.' }
+    #   it { should == 'foo.png' }
+    # end
   end
 
   describe '#write' do
@@ -92,7 +92,7 @@ describe Thumbkit::Processor::Text do
       let(:outfile) { path_for_output('arabic.jpg').to_s }
       it('writes a file') { File.should exist(subject) }
       it('autodetects right-to-left') { processor.__send__(:direction).should == 'right-to-left' }
-      its_size_should_be('200x200')
+      its_size_should_be('600x400')
       its_mimetype_should_be('image/jpeg')
       # Manually check the file to verify unicode stuff and right-to-left worked
     end

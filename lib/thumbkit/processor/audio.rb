@@ -2,7 +2,7 @@ require 'waveform'
 
 class Thumbkit::Processor::Audio < Thumbkit::Processor
 
-  def auto_outfile
+  def determine_outfile
     self.class.force_extension(path, 'png')
   end
 

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Thumbkit::Processor::Image do
 
-  let(:fixture) { 'png_image.png' }
+  let(:fixture) { 'png_file.png' }
   let(:path) { File.expand_path(path_to_fixture(fixture)) }
   let(:outfile) { nil }
   let(:options) { {} }
@@ -14,22 +14,22 @@ describe Thumbkit::Processor::Image do
   describe '#auto_outflie' do
     subject { processor.outfile }
     context 'when nothing specified' do
-      it { should == File.expand_path(path_to_fixture('png_image.png')) }
+      it { should == File.expand_path(path_to_fixture('png_file.png')) }
 
       context 'when the fixture is a jpeg' do
-        let(:fixture) { 'jpg_image.jpg' }
-        it { should == File.expand_path(path_to_fixture('jpg_image.jpg')) }
+        let(:fixture) { 'jpg_file.jpg' }
+        it { should == File.expand_path(path_to_fixture('jpg_file.jpg')) }
       end
     end
 
-    context 'with an extensionless outfile' do
-      let(:outfile) { 'foo.' }
-      it { should == 'foo.png' }
-    end
+    # context 'with an extensionless outfile' do
+    #   let(:outfile) { 'foo.' }
+    #   it { should == 'foo.png' }
+    # end
   end
 
   describe '#write' do
-    let(:outfile) { path_for_output('png_image.png').to_s }
+    let(:outfile) { path_for_output('png_file.png').to_s }
     subject { processor.write }
 
     it 'returns the path of the outfile' do
@@ -62,7 +62,8 @@ describe Thumbkit::Processor::Image do
     end
 
     context 'with a jpg file' do
-      let(:outfile) { path_for_output('jpg_image.jpg').to_s }
+      let(:outfile) { path_for_output('jpg_file.jpg').to_s }
+      it { should == path_for_output('jpg_file.jpg').to_s }
       its_size_should_be('200x200')
       its_mimetype_should_be('image/jpeg')
     end

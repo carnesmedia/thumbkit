@@ -8,6 +8,7 @@ class Thumbkit::Processor
       'png' => 'Image',
       'jpg' => 'Image',
       'txt' => 'Text',
+      'md'  => 'Text',
       'mp3' => 'Audio',
       'wav' => 'Audio',
       'm4a' => 'Audio',
@@ -29,12 +30,12 @@ class Thumbkit::Processor
   attr_accessor :path, :outfile, :options
   def initialize(path, outfile, options)
     @path = path
-    @outfile = outfile || auto_outfile
+    @outfile = outfile || determine_outfile
     @options = Thumbkit.defaults + options
   end
 
-  def auto_outfile
-    @path
+  def determine_outfile
+    raise NotImplementedError, 'Cannot determine an output file'
   end
 
   def write

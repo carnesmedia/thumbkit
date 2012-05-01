@@ -25,7 +25,7 @@ describe Thumbkit::Processor do
 
   describe '#initialize' do
     let(:options) { {} }
-    subject { Thumbkit::Processor.new('infile.png', nil, options) }
+    subject { Thumbkit::Processor.new('infile.png', 'outfile.png', options) }
 
     context 'with no options' do
       its(:options) { should == Thumbkit.defaults }

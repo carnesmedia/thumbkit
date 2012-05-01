@@ -5,7 +5,7 @@ require 'mini_magick'
 #   https://github.com/cousine/downmark_it
 class Thumbkit::Processor::Text < Thumbkit::Processor
 
-  def auto_outfile
+  def determine_outfile
     self.class.force_extension(path, 'png')
   end
 
