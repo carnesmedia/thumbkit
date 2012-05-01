@@ -1,6 +1,5 @@
 require 'waveform'
 
-# TODO: Take and use options
 class Thumbkit::Processor::Audio < Thumbkit::Processor
 
   def auto_outfile

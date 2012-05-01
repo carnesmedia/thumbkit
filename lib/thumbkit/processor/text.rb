@@ -3,8 +3,6 @@ require 'mini_magick'
 # NOTES: For now, use reverse markdown for html
 #   https://github.com/xijo/reverse_markdown
 #   https://github.com/cousine/downmark_it
-
-# TODO: Take and use options
 class Thumbkit::Processor::Text < Thumbkit::Processor
 
   def auto_outfile
