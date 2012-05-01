@@ -1,6 +1,7 @@
 # Thumbkit
 
-NOTE: None of this is implemented yet!
+NOTE: Not all of this is implemented yet. 0.0.2 will mark the release of this
+  initial spec.
 
 Thumbkit makes thumbnails from a variety of media types.
 Thumbkit is designed to work with carrierwave but does not require it.
@@ -13,6 +14,8 @@ Longer term planned types: Video, PDF, HTML.
 
 ```ruby
 Thumbkit.new('path/to/audio.mp3').write_thumbnail # => 'path/to/audio.png'
+Thumbkit.new('path/to/text.txt').write_thumbnail  # => 'path/to/text.png'
+Thumbkit.new('path/to/image.jpg').write_thumbnail # => 'path/to/image.jpg'
 ```
 
 See [Usage](#usage) below for more examples
