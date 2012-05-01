@@ -6,15 +6,8 @@
 
  [1]:https://github.com/emmanuel
 
-NOTE: Not all of this is implemented yet. 0.0.2 will mark the release of this
-  initial spec.
-
 Thumbkit makes thumbnails from a variety of media types.
 Thumbkit is designed to work with carrierwave but does not require it.
-
-Sort term planned types: Audio, Plain Text (and probably HTML), Image.
-
-Longer term planned types: Video, PDF, HTML.
 
 ## Synopsis
 
@@ -33,29 +26,37 @@ Add this line to your application's Gemfile:
     gem 'thumbkit'
     gem 'mini_magick' # For text or image thumbnails
     gem 'waveform' # For audio thumbnails
+    gem 'oily_png' # Optional, for presumably faster audio thumbnails
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Please see [Requirements](#requirements) for more information about each
+thumbnail type.
 
-    $ gem install thumbkit
 
 ## Requirements
 
 ### Image thumbnails
 
-Thumbkit uses MiniMagick to resize and crop images.
+Thumbkit uses [MiniMagick](https://github.com/probablycorey/mini_magick) to
+resize and crop images.
+
+On OS X:
+
+    $ brew install imagemagick
+    $ gem install mini_magick
 
 ### Text thumbnails
 
-Thumbkit uses MiniMagick to render text files, and therefore depends on the
-[minimagick](https://github.com/probablycorey/mini_magick) gem and imagemagick.
+Thumbkit uses [MiniMagick](https://github.com/probablycorey/mini_magick) to
+render text files.
 
-Fonts:
+On OS X:
 
-The list of fonts available to imagemagick can be found with `identify -list Font`
+    $ brew install imagemagick
+    $ gem install mini_magick
 
 ### HTML thumbnails
 
@@ -79,7 +80,7 @@ Like so:
 ```ruby
 gem 'thumbkit'
 gem 'waveform', git: 'https://github.com/amiel/waveform', branch: 'thumbkit'
-gem 'oily_png' # Optional. For presumably faster png cration with waveform
+gem 'oily_png' # Optional, for presumably faster audio thumbnails
 ```
 
 ## Usage
@@ -88,15 +89,41 @@ Thumbkit takes a path to a file, and saves a thumbnail for that file regardless
 of type. Certain types require different gems, but none are dependencies so
 you'll have to install them yourself.
 
-All settings can be set globally.
+All settings can be set globally. These are the defaults:
+
+### Configuration
 
 ```ruby
   Thumbkit.defaults = {
-    width: 60, height: 60,
-    colors: { foreground: '#333333', background: '#eeeeee' },
-    font: { family: 'Helvetica', pointsize: '14' },
+    width: 200, height: 200,
+    gravity: 'Center',
+    colors: { foreground: '#888888', background: '#eeeeee' },
+    font: {
+      family: 'Arial-Regular',
+      pointsize: '18',
+      direction: :auto,
+    },
   }
 ```
+
+Setting `Thumbkit.defaults=` will deep merge. So setting one option is possible
+with:
+
+```ruby
+  Thumbkit.defaults = { colors: { foreground: '#FF69B4' } } # HOT PINK
+```
+
+#### Font options
+
+The list of fonts available to imagemagick can be found with
+`identify -list Font`
+
+#### Gravity Options
+
+A list of gravity options can be found with `identify -list Gravity`
+
+See http://www.imagemagick.org/script/command-line-options.php#gravity for more
+information.
 
 ### Image thumbnails
 
@@ -106,11 +133,8 @@ All settings can be set globally.
 
 Will write a 60x60 cropped image to `path/to/image.jpg`.
 
-
-NOTE: When the output filename is inferred, the filetype will also be inferred
-depending on the input type. In general, image files thumbnails should be the
-same type as their original. Video thumbnails should be jpg. Text and audio
-thumbnails should be png.
+The format of the output file will depend on the extension of the output path
+and defaults to the same as the input file.
 
 ### Text thumbnails
 
@@ -126,11 +150,13 @@ thumbnails should be png.
 
 Will write a 200x200 cropped image to `path/to/text_file.png`.
 
+The format of output will depend on the extension of the output path provided
+but defaults to .png.
+
 #### RTL support
 
 ```ruby
   text = Thumbkit.new('path/to/text_file.txt')
-  text.write_thumbnail(nil, font: { direction: :auto }) # Default, detect automatically
   text.write_thumbnail(nil, font: { direction: 'right-to-left' }) # Force RTL
 ```
 
@@ -138,7 +164,7 @@ Will write a 200x200 cropped image to `path/to/text_file.png`.
 
 * `nil`: don't specify the option to imagemagick (OS default)
 * `:auto`: try to detect. Currently, this switches to `'right-to-left'` if there
-  are *any* RTL characters in the input.
+  are *any* RTL characters in the input. This is the default.
 * `'right-to-left'`, `'left-to-right'`: force LTR or RTL
 
 ### Audio thumbnails
@@ -156,17 +182,21 @@ Note that while imagemagick supports most color specification formats, waveform
 only takes 6 digit hex values. However, there is one special case for the symbol
 :transparent.
 
-Audio thumbnails only support PNG output.
+Audio thumbnails only support PNG output. A png file will be created regardless
+of the extension of the output file provided.
 
 ### Composite thumbnails
+
+NOT YET IMPLEMENTED
 
 ```ruby
   composite = Thumbkit.new(['path/to/audio.mp3', 'path/to/text_file.txt'])
   composite.write_thumbnail('path/to/collection.png')
 ```
 
-
 ### CarrierWave usage
+
+NOT YET IMPLEMENTED
 
 ```ruby
   class MyUploader < CarrierWave::Uploader::Base
@@ -183,6 +213,7 @@ Audio thumbnails only support PNG output.
 * Accept a StringIO instead of a pathname
 * Maybe use filemagic if available
 * Processors:
+  * Composite
   * HTML
   * PDF
   * Video
@@ -191,6 +222,25 @@ Audio thumbnails only support PNG output.
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+3. Run the test suite to make sure all tests pass before you start (`guard`)
+4. Make your changes
+5. Run the test suite again to make sure you didn't break anything existing (`guard`)
+6. Commit your changes (`git commit -am 'Added some feature'`)
+7. Push to the branch (`git push origin my-new-feature`)
+8. Create new Pull Request
+
+## Testing
+
+Tests run in guard. If you don't like guard, a pull request on `Rakefile` would
+be welcome.
+
+Output files are placed in `spec/tmp` which is created automatically before each
+test run and deleted automatically afterward unless `spec/tmp/.keep` exists. If
+you would like to inspect the generated output files, create a file at
+`spec/tmp/.keep`:
+
+    $ mkdir spec/tmp; touch spec/tmp/.keep
+
+Many of the tests just verify that an image was created of the right type and
+size, but do not actually verify that they have the correct content so it is
+good to inspect the generated files.
