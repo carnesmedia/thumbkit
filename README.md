@@ -89,9 +89,93 @@ Thumbkit takes a path to a file, and saves a thumbnail for that file regardless
 of type. Certain types require different gems, but none are dependencies so
 you'll have to install them yourself.
 
-All settings can be set globally. These are the defaults:
+### Image thumbnails
 
-### Configuration
+```ruby
+  Thumbkit.new('path/to/image.jpg').write_thumbnail # => 'path/to/image.jpg'
+```
+
+Will write a 200x200 cropped image to `path/to/image.jpg`.
+
+The format of the output file will depend on the extension of the output path
+and defaults to the same as the input file.
+
+### Text thumbnails
+
+```ruby
+  text = Thumbkit.new('path/to/text_file.txt')
+
+  text.write_thumbnail(nil, {
+    width: 160, height: 160,
+    colors: { foreground: '#663854' },
+    font: { pointsize: '18' },
+  }) # => 'path/to/text_file.png'
+```
+
+Will write a 160x160 cropped image to `path/to/text_file.png`.
+
+The format of output will depend on the extension of the output path provided
+but defaults to .png.
+
+#### RTL support
+
+```ruby
+  text = Thumbkit.new('path/to/text_file.txt')
+  text.write_thumbnail(nil, font: { direction: 'right-to-left' }) # Force RTL
+```
+
+`direction` options:
+
+* `nil`: don't specify the option to imagemagick (OS default)
+* `:auto`: try to detect. Currently, this switches to `'right-to-left'` if there
+  are *any* RTL characters in the input. This is the default.
+* `'right-to-left'`, `'left-to-right'`: force LTR or RTL
+
+### Audio thumbnails
+
+```ruby
+  audio = Thumbkit.new('path/to/audio.mp3')
+  audio.write_thumbnail('path/to/ouput.png', {
+    colors: { foreground: '#ffffff', background: '#000000' },
+  }) # => 'path/to/output.png'
+```
+
+Will write a 200x200 cropped image to `path/to/output.png`.
+
+Note that while imagemagick supports most color specification formats, waveform
+only takes 6 digit hex values. However, there is one special case for the symbol
+:transparent.
+
+Audio thumbnails only support PNG output. A png file will be created regardless
+of the extension of the output file provided.
+
+### Composite thumbnails
+
+NOT YET IMPLEMENTED
+
+```ruby
+  composite = Thumbkit.new(['path/to/audio.mp3', 'path/to/text_file.txt'])
+  composite.write_thumbnail('path/to/collection.png')
+```
+
+### CarrierWave usage
+
+NOT YET IMPLEMENTED
+
+```ruby
+  class MyUploader < CarrierWave::Uploader::Base
+    include CarrierWave::Thumbkit
+
+    version :thumbnail do
+      process :thumbkit => [200, 200, { colors: { foreground: '#cccccc' } }]
+    end
+  end
+```
+
+
+## Configuration
+
+All settings can be set globally. These are the defaults:
 
 ```ruby
   Thumbkit.defaults = {
@@ -125,93 +209,36 @@ A list of gravity options can be found with `identify -list Gravity`
 See http://www.imagemagick.org/script/command-line-options.php#gravity for more
 information.
 
-### Image thumbnails
+#### Processors
+
+Built-in processors can be found in `lib/thumbkit/processor`.
+
+Adding a processor mapping:
 
 ```ruby
-  Thumbkit.new('path/to/image.jpg').write_thumbnail # => 'path/to/image.jpg'
+Thumbkit.processors['jpeg'] = 'Image'
 ```
 
-Will write a 60x60 cropped image to `path/to/image.jpg`.
-
-The format of the output file will depend on the extension of the output path
-and defaults to the same as the input file.
-
-### Text thumbnails
+Adding a processor:
 
 ```ruby
-  text = Thumbkit.new('path/to/text_file.txt')
+class Thumbkit::Processors::Doc
+  def write
+    # use `path` to generate `outfile`
 
-  text.write_thumbnail(nil, {
-    width: 200, height: 200,
-    colors: { foreground: '#663854' },
-    font: { pointsize: '18' },
-  }) # => 'path/to/text_file.png'
-```
-
-Will write a 200x200 cropped image to `path/to/text_file.png`.
-
-The format of output will depend on the extension of the output path provided
-but defaults to .png.
-
-#### RTL support
-
-```ruby
-  text = Thumbkit.new('path/to/text_file.txt')
-  text.write_thumbnail(nil, font: { direction: 'right-to-left' }) # Force RTL
-```
-
-`direction` options:
-
-* `nil`: don't specify the option to imagemagick (OS default)
-* `:auto`: try to detect. Currently, this switches to `'right-to-left'` if there
-  are *any* RTL characters in the input. This is the default.
-* `'right-to-left'`, `'left-to-right'`: force LTR or RTL
-
-### Audio thumbnails
-
-```ruby
-  audio = Thumbkit.new('path/to/audio.mp3')
-  audio.write_thumbnail('path/to/ouput.png', {
-    colors: { foreground: '#ffffff', background: '#000000' },
-  }) # => 'path/to/output.png'
-```
-
-Will write a 60x60 cropped image to `path/to/output.png`.
-
-Note that while imagemagick supports most color specification formats, waveform
-only takes 6 digit hex values. However, there is one special case for the symbol
-:transparent.
-
-Audio thumbnails only support PNG output. A png file will be created regardless
-of the extension of the output file provided.
-
-### Composite thumbnails
-
-NOT YET IMPLEMENTED
-
-```ruby
-  composite = Thumbkit.new(['path/to/audio.mp3', 'path/to/text_file.txt'])
-  composite.write_thumbnail('path/to/collection.png')
-```
-
-### CarrierWave usage
-
-NOT YET IMPLEMENTED
-
-```ruby
-  class MyUploader < CarrierWave::Uploader::Base
-    include CarrierWave::Thumbkit
-
-    version :thumbnail do
-      process :thumbkit => [200, 200, { colors: { foreground: '#cccccc' } }]
-    end
+    # always return the generated filename
+    outfile
   end
+end
+
+Thumbkit.processors['doc'] = 'Doc'
 ```
 
 ## Other plans
 
-* Accept a StringIO instead of a pathname
-* Maybe use filemagic if available
+* Optionally accept a StringIO instead of a pathname
+* Maybe use filemagic/mime-type if available
+* Paperclip processor
 * Processors:
   * Composite
   * HTML

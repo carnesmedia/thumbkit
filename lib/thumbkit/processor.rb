@@ -7,6 +7,7 @@ class Thumbkit::Processor
     @processors ||= {
       'png' => 'Image',
       'jpg' => 'Image',
+      'gif' => 'Image',
       'txt' => 'Text',
       'md'  => 'Text',
       'mp3' => 'Audio',

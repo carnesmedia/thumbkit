@@ -26,6 +26,10 @@ class Thumbkit
     })
   end
 
+  def self.processors
+    Thumbkit::Processor.processors
+  end
+
   def initialize(path)
     @path = File.expand_path(path)
     @filename = File.basename(@path)
@@ -36,7 +40,11 @@ class Thumbkit
     @processor ||= Thumbkit::Processor.processor_for(type)
   end
 
+  def processor_instance(outfile = nil, options = {})
+    processor.new(path, outfile, options)
+  end
+
   def write_thumbnail(outfile = nil, options = {})
-    processor.new(path, outfile, options).write
+    processor_instance(outfile, options).write
   end
 end
