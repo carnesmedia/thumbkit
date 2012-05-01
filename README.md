@@ -1,5 +1,11 @@
 # Thumbkit
 
+> it's like quicklook for carrierwave :)
+>
+> -- <cite>[Emmanuel Gomez][1]</cite>
+
+ [1]:https://github.com/emmanuel
+
 NOTE: Not all of this is implemented yet. 0.0.2 will mark the release of this
   initial spec.
 
