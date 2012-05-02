@@ -158,8 +158,6 @@ of the extension of the output file provided.
 
 ### Composite thumbnails
 
-NOT YET IMPLEMENTED
-
 ```ruby
   composite = Thumbkit.new(['path/to/audio.mp3', 'path/to/text_file.txt'])
   composite.write_thumbnail('path/to/collection.png')

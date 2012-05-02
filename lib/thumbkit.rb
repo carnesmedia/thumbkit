@@ -5,8 +5,6 @@ class Thumbkit
   autoload :Options, 'thumbkit/options'
   autoload :Adapters, 'thumbkit/adapters'
 
-  attr_accessor :path, :filename, :type
-
   def self.defaults
     @defaults ||= Thumbkit::Options.new({
       width: 200,
@@ -31,10 +29,17 @@ class Thumbkit
     Thumbkit::Processor.processors
   end
 
+  attr_accessor :path, :filename, :type
+
   def initialize(path)
-    @path = File.expand_path(path)
-    @filename = File.basename(@path)
-    @type = File.extname(@filename)[1..-1]
+    if Array === path
+      @processor = Thumbkit::Processor::Collection
+      @path = path.map { |p| File.expand_path(p) }
+    else
+      @path = File.expand_path(path)
+      @filename = File.basename(@path)
+      @type = File.extname(@filename)[1..-1]
+    end
   end
 
   def processor

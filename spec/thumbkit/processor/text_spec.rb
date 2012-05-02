@@ -40,6 +40,11 @@ describe Thumbkit::Processor::Text do
       File.should exist(subject)
     end
 
+    it "doesn't have label in the metadata" do
+      result = `identify -verbose #{ subject }|grep label:`.chomp
+      result.should be_empty
+    end
+
     its_size_should_be('200x200')
     its_mimetype_should_be('image/png')
 

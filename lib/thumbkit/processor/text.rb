@@ -73,6 +73,7 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
       mogrify << '+repage'
       # This extra gravity call prevents left-to-right text from rendering centered
       mogrify.gravity 'NorthWest'
+      mogrify << '+strip'
       mogrify.write outfile
       mogrify << "label:@#{path}"
     end

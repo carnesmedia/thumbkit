@@ -18,8 +18,14 @@ describe Thumbkit do
     its(:processor) { should == Thumbkit::Processor::Audio }
     its(:type) { should == 'mp3' }
   end
-end
 
+  context 'with an array' do
+    let(:files) { [path_to_fixture('16Hz-20kHz-Exp-1f-5sec.mp3'), path_to_fixture('text_file.txt')] }
+    subject { Thumbkit.new files }
+
+    its(:processor) { should == Thumbkit::Processor::Collection }
+  end
+end
 
 describe Thumbkit, '.defaults' do
   subject { Thumbkit.defaults }
