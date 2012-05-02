@@ -39,6 +39,10 @@ class Thumbkit
       @path = File.expand_path(path)
       @filename = File.basename(@path)
       @type = File.extname(@filename)[1..-1]
+
+      if ! self.processor
+        raise ArgumentError, "Do processor defined for '#{ @type }'"
+      end
     end
   end
 

@@ -3,7 +3,7 @@
 #   class MyUploader < CarrierWave::Uploader::Base
 #     include Thumbkit::Adapters::CarrierWave
 #
-#     version :thumbnail do
+#     version :thumbnail, :if => :valid_for_thumbkit? do
 #       # See [Configuration](#configuration) below for more about options.
 #       process thumbkit: [200, 200, { colors: { foreground: '#cccccc' } }]
 #
@@ -28,9 +28,19 @@ module Thumbkit::Adapters::CarrierWave
     @file = CarrierWave::SanitizedFile.new(result)
   end
 
+  def valid_for_thumbkit?(file)
+    p "valid_for_thumbkit?", file, current_path
+    !! Thumbkit.new(file.path)
+  rescue ArgumentError
+    false
+  end
+
   # Given a filename, return the filename that Thumbkit would generate.
   # This should not do any processing.
   def thumbkit_filename(for_file)
     File.basename(Thumbkit.new(for_file).processor_instance.outfile)
+  rescue ArgumentError
+    # TODO: Handle this case better
+    nil
   end
 end

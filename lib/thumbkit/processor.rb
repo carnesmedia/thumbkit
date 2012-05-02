@@ -1,19 +1,21 @@
 class Thumbkit::Processor
-  autoload :Text, 'thumbkit/processor/text'
-  autoload :Audio, 'thumbkit/processor/audio'
-  autoload :Image, 'thumbkit/processor/image'
+  autoload :Text,       'thumbkit/processor/text'
+  autoload :Audio,      'thumbkit/processor/audio'
+  autoload :Image,      'thumbkit/processor/image'
   autoload :Collection, 'thumbkit/processor/collection'
 
   def self.processors
     @processors ||= {
-      'png' => 'Image',
-      'jpg' => 'Image',
-      'gif' => 'Image',
-      'txt' => 'Text',
-      'md'  => 'Text',
-      'mp3' => 'Audio',
-      'wav' => 'Audio',
-      'm4a' => 'Audio',
+      'png'   => 'Image',
+      'jpg'   => 'Image',
+      'jpeg'  => 'Image',
+      'gif'   => 'Image',
+      'txt'   => 'Text',
+      'md'    => 'Text',
+      'rb'    => 'Text',
+      'mp3'   => 'Audio',
+      'wav'   => 'Audio',
+      'm4a'   => 'Audio',
     }
   end
 

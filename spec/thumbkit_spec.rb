@@ -25,6 +25,13 @@ describe Thumbkit do
 
     its(:processor) { should == Thumbkit::Processor::Collection }
   end
+
+  context 'with an unknown extension' do
+    subject { Thumbkit.new 'this_extension.no_exist_i_promise' }
+    it 'raises an ArgumentError' do
+      expect { subject }.to raise_error(ArgumentError)
+    end
+  end
 end
 
 describe Thumbkit, '.defaults' do
