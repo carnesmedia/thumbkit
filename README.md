@@ -236,10 +236,10 @@ Adding a processor mapping:
 Thumbkit.processors['jpeg'] = 'Image'
 ```
 
-Adding a processor:
+##### Custom processors
 
 ```ruby
-class Thumbkit::Processors::Doc
+class Thumbkit::Processor::Doc < Thumbkit::Processor
   def write
     # use `path` to generate `outfile`
 
@@ -261,6 +261,12 @@ Thumbkit.processors['doc'] = 'Doc'
   * HTML
   * PDF
   * Video
+
+## Known Issues
+
+* If the output file has an uppercase extension, image processing may break.
+  This will not be an issue if you are not supplying the output filename as
+  `Thumbkit::Image` will always pick a lowercase extension by default.
 
 ## Contributing
 

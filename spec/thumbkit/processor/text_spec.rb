@@ -104,6 +104,15 @@ describe Thumbkit::Processor::Text do
       # Manually check the file to verify unicode stuff and right-to-left worked
     end
 
+    context 'with an uppercase filename' do
+      let(:options) { { } }
+      let(:fixture) { 'OMG_UPPERCASE_TEXT.TXT' }
+      let(:outfile) { path_for_output('OMG_UPPERCASE_TEXT.PNG').to_s }
+      it('writes a file') { File.should exist(subject) }
+      its_size_should_be('200x200')
+      its_mimetype_should_be('image/png')
+    end
+
 
     context 'with an arabic file to output to jpg' do
       let(:options) { { width: 600, height: 400 } }

@@ -4,11 +4,7 @@ class Thumbkit::Processor::Image < Thumbkit::Processor
 
   def determine_outfile
     ext = File.extname(@path)[1..-1].downcase
-    if format_conversions[ext]
-      self.class.force_extension(path, format_conversions[ext])
-    else
-      @path
-    end
+    self.class.force_extension(path, format_conversions[ext] || ext)
   end
 
   def write
@@ -17,16 +13,15 @@ class Thumbkit::Processor::Image < Thumbkit::Processor
     outfile
   end
 
-
-
-  private
-
+  # Public to allow customization
   def format_conversions
     @_format_conversions ||= {
       'cr2' => 'jpg',
       'raw' => 'jpg',
     }
   end
+
+  private
 
   def type
     File.extname(outfile)[1..-1]

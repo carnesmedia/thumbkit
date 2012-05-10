@@ -29,7 +29,7 @@ module Thumbkit::Adapters::CarrierWave
   end
 
   def valid_for_thumbkit?(file)
-    p "valid_for_thumbkit?", file, current_path
+    # p "valid_for_thumbkit?", file, current_path
     !! Thumbkit.new(file.path)
   rescue ArgumentError
     false

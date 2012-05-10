@@ -25,6 +25,11 @@ describe Thumbkit::Processor::Image do
         let(:fixture) { 'IMAGE_RAW_EXAMPLE.CR2' }
         it { should == File.expand_path(path_to_fixture('IMAGE_RAW_EXAMPLE.jpg')) }
       end
+
+      context 'with an uppercase file' do
+        let(:fixture) { 'OMG_UPPERCASE.PNG' }
+        it { should == File.expand_path(path_to_fixture('OMG_UPPERCASE.png')) }
+      end
     end
 
     # context 'with an extensionless outfile' do
@@ -82,6 +87,15 @@ describe Thumbkit::Processor::Image do
       its_size_should_be('200x200')
       its_mimetype_should_be('image/jpeg')
     end
+
+    context 'with an uppercase file' do
+      let(:fixture) { path_to_fixture('OMG_UPPERCASE.PNG') }
+      let(:outfile) { path_for_output('OMG_UPPERCASE.png').to_s }
+      it { should == path_for_output('OMG_UPPERCASE.png').to_s }
+      its_size_should_be('200x200')
+      its_mimetype_should_be('image/png')
+    end
+
 
     # Extremely SLOW
     # context 'with a raw file' do
