@@ -20,7 +20,7 @@ class Thumbkit::Processor
   end
 
   def self.processor_for(extension)
-    if (class_name = self.processors[extension])
+    if (class_name = self.processors[extension.downcase])
       self.const_get(class_name)
     end
   end
