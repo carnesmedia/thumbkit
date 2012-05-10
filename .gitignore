@@ -10,3 +10,4 @@ pkg
 rdoc
 spec/reports
 tmp
+spec/fixtures/IMG_RAW_EXAMPLE.CR2

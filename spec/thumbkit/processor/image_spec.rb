@@ -20,6 +20,11 @@ describe Thumbkit::Processor::Image do
         let(:fixture) { 'jpg_file.jpg' }
         it { should == File.expand_path(path_to_fixture('jpg_file.jpg')) }
       end
+
+      context 'when the fixture is a cr2' do
+        let(:fixture) { 'IMAGE_RAW_EXAMPLE.CR2' }
+        it { should == File.expand_path(path_to_fixture('IMAGE_RAW_EXAMPLE.jpg')) }
+      end
     end
 
     # context 'with an extensionless outfile' do
@@ -77,5 +82,14 @@ describe Thumbkit::Processor::Image do
       its_size_should_be('200x200')
       its_mimetype_should_be('image/jpeg')
     end
+
+    # Extremely SLOW
+    # context 'with a raw file' do
+    #   let(:fixture) { 'IMG_RAW_EXAMPLE.CR2' }
+    #   let(:outfile) { path_for_output('IMAGE_RAW_EXAMPLE.jpg').to_s }
+    #   it { should == path_for_output('IMAGE_RAW_EXAMPLE.jpg').to_s }
+    #   its_size_should_be('200x200')
+    #   its_mimetype_should_be('image/jpeg')
+    # end
   end
 end

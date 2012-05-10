@@ -47,8 +47,12 @@ thumbnail type.
 Thumbkit uses [MiniMagick](https://github.com/probablycorey/mini_magick) to
 resize and crop images.
 
+If you plan to support thumbnails raw files, imagemagick delegate raw processing
+to [ufraw](http://ufraw.sourceforge.net/).
+
 On OS X:
 
+    $ brew install ufraw # Optional, for processing cr2, raw, etc
     $ brew install imagemagick
     $ gem install mini_magick
 

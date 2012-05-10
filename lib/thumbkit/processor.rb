@@ -10,6 +10,8 @@ class Thumbkit::Processor
       'jpg'   => 'Image',
       'jpeg'  => 'Image',
       'gif'   => 'Image',
+      'cr2'   => 'Image',
+      'raw'   => 'Image',
       'txt'   => 'Text',
       'md'    => 'Text',
       'rb'    => 'Text',

@@ -3,7 +3,12 @@ require 'mini_magick'
 class Thumbkit::Processor::Image < Thumbkit::Processor
 
   def determine_outfile
-    @path
+    ext = File.extname(@path)[1..-1].downcase
+    if format_conversions[ext]
+      self.class.force_extension(path, format_conversions[ext])
+    else
+      @path
+    end
   end
 
   def write
@@ -16,10 +21,16 @@ class Thumbkit::Processor::Image < Thumbkit::Processor
 
   private
 
+  def format_conversions
+    @_format_conversions ||= {
+      'cr2' => 'jpg',
+      'raw' => 'jpg',
+    }
+  end
+
   def type
     File.extname(outfile)[1..-1]
   end
-
 
   # Copied and adjusted from CarrierWave
   def resize_to_fill
