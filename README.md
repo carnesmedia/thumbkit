@@ -80,6 +80,10 @@ other than .wav files.
 
 See https://github.com/benalavi/waveform for more on requirements.
 
+    $ brew install ffmpeg # Optional for mp3
+    $ brew install libsndfile
+
+
 NOTE: As of 0.0.3 waveform fails on mono files
 ([benalavi/waveform#4](https://github.com/benalavi/waveform/issues/4),
 [benalavi/waveform#5](https://github.com/benalavi/waveform/issues/5)).
@@ -87,6 +91,7 @@ I've forked and fixed the issue (see
 [benalavi/waveform#6](https://github.com/benalavi/waveform/pull/6)). Until my
 fix gets merged in you can use https://github.com/amiel/waveform/tree/thumbkit.
 Like so:
+
 
 ```ruby
 gem 'thumbkit'
