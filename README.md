@@ -262,7 +262,6 @@ Thumbkit.processors['doc'] = 'Doc'
 * Maybe use filemagic/mime-type if available
 * Paperclip processor
 * Processors:
-  * Composite
   * HTML
   * PDF
   * Video
