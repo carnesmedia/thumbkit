@@ -96,6 +96,14 @@ describe Thumbkit::Processor::Image do
       its_mimetype_should_be('image/png')
     end
 
+    context 'when the filename has spaces' do
+      let(:fixture) { path_to_fixture('with spaces.png') }
+      let(:outfile) { path_for_output('with spaces.png').to_s }
+      it { should == path_for_output('with spaces.png').to_s }
+      its_size_should_be('200x200')
+      its_mimetype_should_be('image/png')
+    end
+
 
     # Extremely SLOW
     # context 'with a raw file' do

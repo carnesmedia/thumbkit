@@ -26,7 +26,7 @@ module ImageMacros
 
   def its_mimetype_should_be(mime)
     it "its mime type should be #{ mime }" do
-      m = `file --mime-type -n -N "#{ subject }"|cut -d' ' -f2`.chomp
+      m = `file --mime-type -n -N "#{ subject }"`.split(/\s/).last
       m.should == mime
     end
   end
