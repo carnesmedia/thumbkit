@@ -16,8 +16,17 @@ class Thumbkit::Processor::Image < Thumbkit::Processor
   # Public to allow customization
   def format_conversions
     @_format_conversions ||= {
-      'cr2' => 'jpg',
-      'raw' => 'jpg',
+      'cr2'   => 'jpg', # Canon RAW
+      'crw'   => 'jpg', # Canon RAW
+      'dng'   => 'jpg', # Adobe Digital Negative
+      'nef'   => 'jpg', # Nikon RAW
+      'nrw'   => 'jpg', # Nikon RAW
+      'psd'   => 'jpg',
+      'raw'   => 'jpg',
+      'sr2'   => 'jpg', # Sony RAW
+      'srf'   => 'jpg', # Sony RAW
+      'cr2'   => 'jpg',
+      'raw'   => 'jpg',
     }
   end
 
