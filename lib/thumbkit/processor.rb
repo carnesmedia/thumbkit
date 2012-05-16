@@ -18,8 +18,8 @@ class Thumbkit::Processor
       'png'   => 'Image',
       'psd'   => 'Image',
       'raw'   => 'Image',
-      'sr2',  => 'Image', # Sony RAW
-      'srf',  => 'Image', # Sony RAW
+      'sr2'   => 'Image', # Sony RAW
+      'srf'   => 'Image', # Sony RAW
       'tif'   => 'Image',
       'tiff'  => 'Image',
       'yuv'   => 'Image',
