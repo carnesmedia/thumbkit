@@ -41,7 +41,7 @@ class Thumbkit
       @type = File.extname(@filename)[1..-1]
 
       if ! self.processor
-        raise ArgumentError, "Do processor defined for '#{ @type }'"
+        raise ArgumentError, "No processor defined for '#{ @type }'"
       end
     end
   end
