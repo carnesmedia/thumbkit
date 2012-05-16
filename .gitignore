@@ -11,3 +11,4 @@ rdoc
 spec/reports
 tmp
 spec/fixtures/IMG_RAW_EXAMPLE.CR2
+spec/fixtures/NIKON_RAW_EXAMPLE.NEF

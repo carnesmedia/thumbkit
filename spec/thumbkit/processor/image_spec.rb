@@ -113,5 +113,13 @@ describe Thumbkit::Processor::Image do
     #   its_size_should_be('200x200')
     #   its_mimetype_should_be('image/jpeg')
     # end
+
+    # context 'with a raw file' do
+    #   let(:fixture) { 'NIKON_RAW_EXAMPLE.NEF' }
+    #   let(:outfile) { path_for_output('NIKON_RAW_EXAMPLE.jpg').to_s }
+    #   it { should == path_for_output('NIKON_RAW_EXAMPLE.jpg').to_s }
+    #   its_size_should_be('200x200')
+    #   its_mimetype_should_be('image/jpeg')
+    # end
   end
 end
