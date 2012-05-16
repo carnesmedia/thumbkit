@@ -9,6 +9,7 @@ class Thumbkit
     @defaults ||= Thumbkit::Options.new({
       width: 200,
       height: 200,
+      crop: true, # Whether or not we crop to fill the entire thumbnail size
       # Run `identify -list Gravity` for a list of available options
       gravity: 'Center',
       colors: {

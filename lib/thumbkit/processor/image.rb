@@ -8,7 +8,7 @@ class Thumbkit::Processor::Image < Thumbkit::Processor
   end
 
   def write
-    resize_to_fill
+    options[:crop] ? resize_to_fill : resize_to_fit
 
     outfile
   end
@@ -37,6 +37,13 @@ class Thumbkit::Processor::Image < Thumbkit::Processor
   end
 
   # Copied and adjusted from CarrierWave
+
+  def resize_to_fit
+    image = ::MiniMagick::Image.open(path)
+    image.resize "#{options[:width]}x#{options[:height]}"
+    image.write(outfile)
+  end
+
   def resize_to_fill
     image = ::MiniMagick::Image.open(path)
 
