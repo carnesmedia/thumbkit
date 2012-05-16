@@ -113,6 +113,12 @@ you'll have to install them yourself.
 
 Will write a 200x200 cropped image to `path/to/image.jpg`.
 
+To get an image resized to fit instead of cropped:
+
+```ruby
+  Thumbkit.new('path/to/image.jpg', crop: false).write_thumbnail
+```
+
 The format of the output file will depend on the extension of the output path
 and defaults to the same as the input file.
 
@@ -203,6 +209,7 @@ All settings can be set globally. These are the defaults:
   Thumbkit.defaults = {
     width: 200, height: 200,
     gravity: 'Center',
+    crop: true,
     colors: { foreground: '#888888', background: '#eeeeee' },
     font: {
       family: 'Arial-Regular',
