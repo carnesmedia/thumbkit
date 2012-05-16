@@ -6,12 +6,23 @@ class Thumbkit::Processor
 
   def self.processors
     @processors ||= {
-      'png'   => 'Image',
+      'bmp'   => 'Image',
+      'cr2'   => 'Image', # Canon RAW
+      'crw'   => 'Image', # Canon RAW
+      'dng'   => 'Image', # Adobe Digital Negative
+      'gif'   => 'Image',
       'jpg'   => 'Image',
       'jpeg'  => 'Image',
-      'gif'   => 'Image',
-      'cr2'   => 'Image',
+      'nef'   => 'Image', # Nikon RAW
+      'nrw'   => 'Image', # Nikon RAW
+      'png'   => 'Image',
+      'psd'   => 'Image',
       'raw'   => 'Image',
+      'sr2'   => 'Image', # Sony RAW
+      'srf'   => 'Image', # Sony RAW
+      'tif'   => 'Image',
+      'tiff'  => 'Image',
+      'yuv'   => 'Image',
       'txt'   => 'Text',
       'md'    => 'Text',
       'rb'    => 'Text',
