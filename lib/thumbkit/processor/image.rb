@@ -40,6 +40,7 @@ class Thumbkit::Processor::Image < Thumbkit::Processor
 
   def resize_to_fit
     image = ::MiniMagick::Image.open(path)
+    image.format type
     image.resize "#{options[:width]}x#{options[:height]}"
     image.write(outfile)
   end
