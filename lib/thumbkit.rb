@@ -28,6 +28,10 @@ class Thumbkit
     })
   end
 
+  def self.defaults=(options)
+    @defaults += options
+  end
+
   def self.processors
     Thumbkit::Processor.processors
   end

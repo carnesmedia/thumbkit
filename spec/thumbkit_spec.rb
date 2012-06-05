@@ -45,3 +45,21 @@ describe Thumbkit, '.defaults' do
     subject.should have_key(:font)
   end
 end
+
+
+describe Thumbkit, '.defaults=' do
+  subject { Thumbkit.defaults }
+  before { Thumbkit.defaults = { font: { family: 'Helvetica' } } }
+
+  it 'still has all the other settings' do
+    subject.should have_key(:colors)
+  end
+
+  it 'still has the other default font settings' do
+    subject[:font].should have_key(:size)
+  end
+
+  it 'changes the font family' do
+    subject[:font][:family].should == 'Helvetica'
+  end
+end
