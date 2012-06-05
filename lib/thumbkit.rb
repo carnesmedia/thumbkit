@@ -29,7 +29,7 @@ class Thumbkit
   end
 
   def self.defaults=(options)
-    @defaults += options
+    @defaults = defaults + options
   end
 
   def self.processors
