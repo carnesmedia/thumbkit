@@ -21,7 +21,7 @@ class Thumbkit
       },
       font: {
         # Run `identify -list Font` for available font options
-        family: 'Arial-Regular',
+        family: 'Helvetica',
         size: '18', # In points
         direction: :auto, # nil, :auto, 'right-to-left', or 'left-to-right'
       },
