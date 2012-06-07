@@ -58,6 +58,25 @@ describe Thumbkit::Processor::Text do
       # Manually check the file to verify colors
     end
 
+
+    context 'with size settings specifically for the text processor in defaults' do
+      let(:outfile) { path_for_output('text-test-300x250.png').to_s }
+      before { Thumbkit.defaults = { Text: { width: 300, height: 250 } } }
+      after { Thumbkit.reset_defaults! }
+
+      its_size_should_be('300x250')
+      its_mimetype_should_be('image/png')
+    end
+
+    context 'with size settings specifically for the text processor' do
+      let(:outfile) { path_for_output('text-test-300x250.png').to_s }
+      let(:options) { { Text: { width: 300, height: 250 } } }
+
+      its_size_should_be('300x250')
+      its_mimetype_should_be('image/png')
+    end
+
+
     context 'with gravity settings' do
       let(:outfile) { path_for_output('text-test-northeast-150x250.png').to_s }
       # Let's change a few settings for manual inspection

@@ -48,7 +48,15 @@ class Thumbkit::Processor
   def initialize(path, outfile, options)
     @path = path
     @outfile = outfile || determine_outfile
-    @options = Thumbkit.defaults + options
+    @options = default_options + options + options.fetch(processor_name, {})
+  end
+
+  def processor_name
+    self.class.name.split('::').last.to_sym
+  end
+
+  def default_options
+    Thumbkit.defaults + Thumbkit.defaults.fetch(processor_name, {})
   end
 
   def determine_outfile

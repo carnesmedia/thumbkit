@@ -32,6 +32,10 @@ class Thumbkit
     @defaults = defaults + options
   end
 
+  def self.reset_defaults!
+    @defaults = nil
+  end
+
   def self.processors
     Thumbkit::Processor.processors
   end

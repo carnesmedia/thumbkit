@@ -44,4 +44,36 @@ describe Thumbkit::Processor do
       end
     end
   end
+
+  describe '#default_options' do
+    subject { klass.new('infile.png', 'outfile.png', {}) }
+    context 'with some processor specific defaults' do
+      before do
+        Thumbkit.defaults = {
+          Text:  { width: 10, colors: { background: '#111111' } },
+          Audio: { width: 20, colors: { background: '#222222' } },
+        }
+      end
+
+      context 'for the Text processor' do
+        let(:klass) { Thumbkit::Processor::Text }
+        it 'overrides the default options' do
+          subject.options[:width].should == 10
+          subject.options[:colors][:background].should == '#111111'
+        end
+      end
+
+
+      context 'for the Audio processor' do
+        let(:klass) { Thumbkit::Processor::Audio }
+        it 'overrides the default options' do
+          subject.options[:width].should == 20
+          subject.options[:colors][:background].should == '#222222'
+        end
+      end
+
+    end
+
+
+  end
 end
