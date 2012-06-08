@@ -20,8 +20,20 @@
 #   end
 #
 module Thumbkit::Adapters::CarrierWave
-  def thumbkit(width, height, options = {})
-    options.merge!(width: width, height: height)
+  def thumbkit_options(args)
+    {}.tap do |options|
+      if args.size > 1
+        width = args.shift
+        height = args.shift
+        options.merge!(width: width, height: height)
+      end
+
+      options.merge! args.fetch(0, {})
+    end
+  end
+
+  def thumbkit(*args)
+    options = thumbkit_options(args)
     cache_stored_file! if !cached?
     thumbkit = Thumbkit.new(current_path)
     result = thumbkit.write_thumbnail(nil, options)
