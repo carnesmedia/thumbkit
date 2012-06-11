@@ -1,7 +1,7 @@
 # Thumbkit
 
-Thumbkit makes thumbnails from a variety of media types.
-Thumbkit is designed to work with carrierwave but does not require it.
+Thumbkit provides a unified API for generating thumbnail images from image, audio, and text sources.
+It plays nicely with Carrierwave out of the box, but doesn't require it.
 
 > it's like quicklook for carrierwave :)
 >
@@ -59,10 +59,11 @@ On OS X:
 ### Text thumbnails
 
 Thumbkit uses [MiniMagick](https://github.com/probablycorey/mini_magick) to
-render text files.
+render text files, and depends on both Ghostscript and ImageMagick
 
 On OS X:
 
+    $ brew install ghostscript
     $ brew install imagemagick
     $ gem install mini_magick
 
