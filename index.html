@@ -1,0 +1,394 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Thumbkit by carnesmedia</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Thumbkit</h1>
+        <p>A unified API for generating thumbnail images from image, audio, and text sources.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/carnesmedia/thumbkit" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/carnesmedia/thumbkit/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/carnesmedia/thumbkit/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>Thumbkit</h1>
+
+<p>Thumbkit provides a unified API for generating thumbnail images from image, audio, and text sources.
+It plays nicely with Carrierwave out of the box, but doesn't require it.</p>
+
+<blockquote>
+<p>it's like quicklook for carrierwave :)</p>
+
+<p>-- <a href="https://github.com/emmanuel">Emmanuel Gomez</a></p>
+</blockquote>
+
+<h2>Synopsis</h2>
+
+<div class="highlight">
+<pre><span class="no">Thumbkit</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'path/to/audio.mp3'</span><span class="p">)</span><span class="o">.</span><span class="n">write_thumbnail</span> <span class="c1"># =&gt; 'path/to/audio.png'</span>
+<span class="no">Thumbkit</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'path/to/text.txt'</span><span class="p">)</span><span class="o">.</span><span class="n">write_thumbnail</span>  <span class="c1"># =&gt; 'path/to/text.png'</span>
+<span class="no">Thumbkit</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'path/to/image.jpg'</span><span class="p">)</span><span class="o">.</span><span class="n">write_thumbnail</span> <span class="c1"># =&gt; 'path/to/image.jpg'</span>
+</pre>
+</div>
+
+
+<p>See <a href="#usage">Usage</a> below for more examples</p>
+
+<h2>Installation</h2>
+
+<p>Add this line to your application's Gemfile:</p>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="s1">'thumbkit'</span>
+<span class="n">gem</span> <span class="s1">'mini_magick'</span> <span class="c1"># For text or image thumbnails</span>
+<span class="n">gem</span> <span class="s1">'waveform'</span> <span class="c1"># For audio thumbnails</span>
+<span class="n">gem</span> <span class="s1">'oily_png'</span> <span class="c1"># Optional, for presumably faster audio thumbnails</span>
+</pre>
+</div>
+
+
+<p>And then execute:</p>
+
+<pre lang="shell"><code>$ bundle
+</code></pre>
+
+<p>Please see <a href="#requirements">Requirements</a> for more information about each
+thumbnail type.</p>
+
+<h2>Requirements</h2>
+
+<h3>Image thumbnails</h3>
+
+<p>Thumbkit uses <a href="https://github.com/probablycorey/mini_magick">MiniMagick</a> to
+resize and crop images.</p>
+
+<p>If you plan to support thumbnails raw files, imagemagick delegate raw processing
+to <a href="http://ufraw.sourceforge.net/">ufraw</a>.</p>
+
+<p>On OS X:</p>
+
+<pre><code>$ brew install ufraw # Optional, for processing cr2, raw, etc
+$ brew install imagemagick
+$ gem install mini_magick
+</code></pre>
+
+<h3>Text thumbnails</h3>
+
+<p>Thumbkit uses <a href="https://github.com/probablycorey/mini_magick">MiniMagick</a> to
+render text files, and depends on both Ghostscript and ImageMagick</p>
+
+<p>On OS X:</p>
+
+<pre><code>$ brew install ghostscript
+$ brew install imagemagick
+$ gem install mini_magick
+</code></pre>
+
+<h3>HTML thumbnails</h3>
+
+<p>HTML thumbnails are not yet supported, but the plan is to use phantomjs to
+render html files.</p>
+
+<h3>Audio thumbnails</h3>
+
+<p>Thumbkit uses the <a href="https://github.com/benalavi/waveform">waveform</a> gem to render
+audio files. <a href="https://github.com/benalavi/waveform">waveform</a> depends on
+libsndfile. <strong>ffmpeg</strong> is required in order to generate thumbnails from anything
+other than .wav files.</p>
+
+<p>See <a href="https://github.com/benalavi/waveform">https://github.com/benalavi/waveform</a> for more on requirements.</p>
+
+<pre><code>$ brew install ffmpeg # Optional for mp3
+$ brew install libsndfile
+</code></pre>
+
+<p>NOTE: As of 0.0.3 waveform fails on mono files
+(<a href="https://github.com/benalavi/waveform/issues/4">benalavi/waveform#4</a>,
+<a href="https://github.com/benalavi/waveform/issues/5">benalavi/waveform#5</a>).
+I've forked and fixed the issue (see
+<a href="https://github.com/benalavi/waveform/pull/6">benalavi/waveform#6</a>). Until my
+fix gets merged in you can use <a href="https://github.com/amiel/waveform/tree/thumbkit">https://github.com/amiel/waveform/tree/thumbkit</a>.
+Like so:</p>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="s1">'thumbkit'</span>
+<span class="n">gem</span> <span class="s1">'waveform'</span><span class="p">,</span> <span class="n">git</span><span class="p">:</span> <span class="s1">'https://github.com/amiel/waveform'</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="s1">'thumbkit'</span>
+<span class="n">gem</span> <span class="s1">'oily_png'</span> <span class="c1"># Optional, for presumably faster audio thumbnails</span>
+</pre>
+</div>
+
+
+<h2>Usage</h2>
+
+<p>Thumbkit takes a path to a file, and saves a thumbnail for that file regardless
+of type. Certain types require different gems, but none are dependencies so
+you'll have to install them yourself.</p>
+
+<h3>Image thumbnails</h3>
+
+<div class="highlight">
+<pre>  <span class="no">Thumbkit</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'path/to/image.jpg'</span><span class="p">)</span><span class="o">.</span><span class="n">write_thumbnail</span> <span class="c1"># =&gt; 'path/to/image.jpg'</span>
+</pre>
+</div>
+
+
+<p>Will write a 200x200 cropped image to <code>path/to/image.jpg</code>.</p>
+
+<p>To get an image resized to fit instead of cropped:</p>
+
+<div class="highlight">
+<pre>  <span class="no">Thumbkit</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'path/to/image.jpg'</span><span class="p">,</span> <span class="n">crop</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span><span class="o">.</span><span class="n">write_thumbnail</span>
+</pre>
+</div>
+
+
+<p>The format of the output file will depend on the extension of the output path
+and defaults to the same as the input file.</p>
+
+<h3>Text thumbnails</h3>
+
+<div class="highlight">
+<pre>  <span class="n">text</span> <span class="o">=</span> <span class="no">Thumbkit</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'path/to/text_file.txt'</span><span class="p">)</span>
+
+  <span class="n">text</span><span class="o">.</span><span class="n">write_thumbnail</span><span class="p">(</span><span class="kp">nil</span><span class="p">,</span> <span class="p">{</span>
+    <span class="n">width</span><span class="p">:</span> <span class="mi">160</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="mi">160</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="p">{</span> <span class="n">foreground</span><span class="p">:</span> <span class="s1">'#663854'</span> <span class="p">},</span>
+    <span class="n">font</span><span class="p">:</span> <span class="p">{</span> <span class="n">pointsize</span><span class="p">:</span> <span class="s1">'18'</span> <span class="p">},</span>
+  <span class="p">})</span> <span class="c1"># =&gt; 'path/to/text_file.png'</span>
+</pre>
+</div>
+
+
+<p>Will write a 160x160 cropped image to <code>path/to/text_file.png</code>.</p>
+
+<p>The format of output will depend on the extension of the output path provided
+but defaults to .png.</p>
+
+<h4>RTL support</h4>
+
+<div class="highlight">
+<pre>  <span class="n">text</span> <span class="o">=</span> <span class="no">Thumbkit</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'path/to/text_file.txt'</span><span class="p">)</span>
+  <span class="n">text</span><span class="o">.</span><span class="n">write_thumbnail</span><span class="p">(</span><span class="kp">nil</span><span class="p">,</span> <span class="n">font</span><span class="p">:</span> <span class="p">{</span> <span class="n">direction</span><span class="p">:</span> <span class="s1">'right-to-left'</span> <span class="p">})</span> <span class="c1"># Force RTL</span>
+</pre>
+</div>
+
+
+<p><code>direction</code> options:</p>
+
+<ul>
+<li>
+<code>nil</code>: don't specify the option to imagemagick (OS default)</li>
+<li>
+<code>:auto</code>: try to detect. Currently, this switches to <code>'right-to-left'</code> if there
+are <em>any</em> RTL characters in the input. This is the default.</li>
+<li>
+<code>'right-to-left'</code>, <code>'left-to-right'</code>: force LTR or RTL</li>
+</ul><h3>Audio thumbnails</h3>
+
+<div class="highlight">
+<pre>  <span class="n">audio</span> <span class="o">=</span> <span class="no">Thumbkit</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'path/to/audio.mp3'</span><span class="p">)</span>
+  <span class="n">audio</span><span class="o">.</span><span class="n">write_thumbnail</span><span class="p">(</span><span class="s1">'path/to/ouput.png'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="p">{</span> <span class="n">foreground</span><span class="p">:</span> <span class="s1">'#ffffff'</span><span class="p">,</span> <span class="n">background</span><span class="p">:</span> <span class="s1">'#000000'</span> <span class="p">},</span>
+  <span class="p">})</span> <span class="c1"># =&gt; 'path/to/output.png'</span>
+</pre>
+</div>
+
+
+<p>Will write a 200x200 cropped image to <code>path/to/output.png</code>.</p>
+
+<p>Note that while imagemagick supports most color specification formats, waveform
+only takes 6 digit hex values. However, there is one special case for the symbol
+:transparent.</p>
+
+<p>Audio thumbnails only support PNG output. A png file will be created regardless
+of the extension of the output file provided.</p>
+
+<h3>Composite thumbnails</h3>
+
+<div class="highlight">
+<pre>  <span class="n">composite</span> <span class="o">=</span> <span class="no">Thumbkit</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="s1">'path/to/audio.mp3'</span><span class="p">,</span> <span class="s1">'path/to/text_file.txt'</span><span class="o">]</span><span class="p">)</span>
+  <span class="n">composite</span><span class="o">.</span><span class="n">write_thumbnail</span><span class="p">(</span><span class="s1">'path/to/collection.png'</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h3>CarrierWave usage</h3>
+
+<div class="highlight">
+<pre>  <span class="k">class</span> <span class="nc">MyUploader</span> <span class="o">&lt;</span> <span class="no">CarrierWave</span><span class="o">::</span><span class="no">Uploader</span><span class="o">::</span><span class="no">Base</span>
+    <span class="kp">include</span> <span class="no">Thumbkit</span><span class="o">::</span><span class="no">Adapters</span><span class="o">::</span><span class="no">CarrierWave</span>
+
+    <span class="n">version</span> <span class="ss">:thumbnail</span> <span class="k">do</span>
+      <span class="c1"># See Configuration below for more about options.</span>
+      <span class="n">process</span> <span class="n">thumbkit</span><span class="p">:</span> <span class="o">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="p">{</span> <span class="n">colors</span><span class="p">:</span> <span class="p">{</span> <span class="n">foreground</span><span class="p">:</span> <span class="s1">'#cccccc'</span> <span class="p">}</span> <span class="p">}</span><span class="o">]</span>
+
+      <span class="c1"># This tells CarrierWave where the version file can be found since</span>
+      <span class="c1"># thumbkit can write a to a file with a different extension than the</span>
+      <span class="c1"># original.</span>
+      <span class="c1">#</span>
+      <span class="c1"># See https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Customize-your-version-file-names</span>
+      <span class="c1"># for more about</span>
+      <span class="k">def</span> <span class="nf">full_filename</span><span class="p">(</span><span class="n">for_file</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+        <span class="o">[</span><span class="n">version_name</span><span class="p">,</span> <span class="n">thumbkit_filename</span><span class="p">(</span><span class="n">for_file</span><span class="p">)</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s1">'_'</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</pre>
+</div>
+
+
+<h2>Configuration</h2>
+
+<p>All settings can be set globally. These are the defaults:</p>
+
+<div class="highlight">
+<pre>  <span class="no">Thumbkit</span><span class="o">.</span><span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">width</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="n">gravity</span><span class="p">:</span> <span class="s1">'Center'</span><span class="p">,</span>
+    <span class="n">crop</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="p">{</span> <span class="n">foreground</span><span class="p">:</span> <span class="s1">'#888888'</span><span class="p">,</span> <span class="n">background</span><span class="p">:</span> <span class="s1">'#eeeeee'</span> <span class="p">},</span>
+    <span class="n">font</span><span class="p">:</span> <span class="p">{</span>
+      <span class="n">family</span><span class="p">:</span> <span class="s1">'Arial-Regular'</span><span class="p">,</span>
+      <span class="n">pointsize</span><span class="p">:</span> <span class="s1">'18'</span><span class="p">,</span>
+      <span class="n">direction</span><span class="p">:</span> <span class="ss">:auto</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Setting <code>Thumbkit.defaults=</code> will deep merge. So setting one option is possible
+with:</p>
+
+<div class="highlight">
+<pre>  <span class="no">Thumbkit</span><span class="o">.</span><span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span> <span class="n">colors</span><span class="p">:</span> <span class="p">{</span> <span class="n">foreground</span><span class="p">:</span> <span class="s1">'#FF69B4'</span> <span class="p">}</span> <span class="p">}</span> <span class="c1"># HOT PINK</span>
+</pre>
+</div>
+
+
+<h4>Font options</h4>
+
+<p>The list of fonts available to imagemagick can be found with
+<code>identify -list Font</code></p>
+
+<h4>Gravity Options</h4>
+
+<p>A list of gravity options can be found with <code>identify -list Gravity</code></p>
+
+<p>See <a href="http://www.imagemagick.org/script/command-line-options.php#gravity">http://www.imagemagick.org/script/command-line-options.php#gravity</a> for more
+information.</p>
+
+<h4>Processors</h4>
+
+<p>Built-in processors can be found in <code>lib/thumbkit/processor</code>.</p>
+
+<p>Adding a processor mapping:</p>
+
+<div class="highlight">
+<pre><span class="no">Thumbkit</span><span class="o">.</span><span class="n">processors</span><span class="o">[</span><span class="s1">'jpeg'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'Image'</span>
+</pre>
+</div>
+
+
+<h5>Custom processors</h5>
+
+<div class="highlight">
+<pre><span class="k">class</span> <span class="nc">Thumbkit</span><span class="o">::</span><span class="no">Processor</span><span class="o">::</span><span class="no">Doc</span> <span class="o">&lt;</span> <span class="no">Thumbkit</span><span class="o">::</span><span class="no">Processor</span>
+  <span class="k">def</span> <span class="nf">write</span>
+    <span class="c1"># use `path` to generate `outfile`</span>
+
+    <span class="c1"># always return the generated filename</span>
+    <span class="n">outfile</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Thumbkit</span><span class="o">.</span><span class="n">processors</span><span class="o">[</span><span class="s1">'doc'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'Doc'</span>
+</pre>
+</div>
+
+
+<h2>Other plans</h2>
+
+<ul>
+<li>Optionally accept a StringIO instead of a pathname</li>
+<li>Maybe use filemagic/mime-type if available</li>
+<li>Paperclip processor</li>
+<li>Processors:
+
+<ul>
+<li>HTML</li>
+<li>PDF</li>
+<li>Video</li>
+</ul>
+</li>
+</ul><h2>Known Issues</h2>
+
+<ul>
+<li>If the output file has an uppercase extension, image processing may break.
+This will not be an issue if you are not supplying the output filename as
+<code>Thumbkit::Image</code> will always pick a lowercase extension by default.</li>
+</ul><h2>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Run the test suite to make sure all tests pass before you start (<code>guard</code>)</li>
+<li>Make your changes</li>
+<li>Run the test suite again to make sure you didn't break anything existing (<code>guard</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Added some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol><h2>Testing</h2>
+
+<p>Tests run in guard. If you don't like guard, a pull request on <code>Rakefile</code> would
+be welcome.</p>
+
+<p>Output files are placed in <code>spec/tmp</code> which is created automatically before each
+test run and deleted automatically afterward unless <code>spec/tmp/.keep</code> exists. If
+you would like to inspect the generated output files, create a file at
+<code>spec/tmp/.keep</code>:</p>
+
+<pre><code>$ mkdir spec/tmp; touch spec/tmp/.keep
+</code></pre>
+
+<p>Many of the tests just verify that an image was created of the right type and
+size, but do not actually verify that they have the correct content so it is
+good to inspect the generated files.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/carnesmedia">carnesmedia</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+</html>
