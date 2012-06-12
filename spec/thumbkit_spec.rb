@@ -26,6 +26,13 @@ describe Thumbkit do
     its(:processor) { should == Thumbkit::Processor::Collection }
   end
 
+  context 'with no extension' do
+    subject { Thumbkit.new 'this_file_has_no_extension' }
+    it 'raises an ArgumentError' do
+      expect { subject }.to raise_error(ArgumentError)
+    end
+  end
+
   context 'with an unknown extension' do
     subject { Thumbkit.new 'this_extension.no_exist_i_promise' }
     it 'raises an ArgumentError' do

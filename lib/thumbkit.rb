@@ -51,6 +51,10 @@ class Thumbkit
       @filename = File.basename(@path)
       @type = File.extname(@filename)[1..-1]
 
+      if ! self.type
+        raise ArgumentError, "That file has no extension, we can't determine how to process it."
+      end
+
       if ! self.processor
         raise ArgumentError, "No processor defined for '#{ @type }'"
       end
