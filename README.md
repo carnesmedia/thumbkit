@@ -293,8 +293,7 @@ Thumbkit.processors['doc'] = 'Doc'
 
 ## Testing
 
-Tests run in guard. If you don't like guard, a pull request on `Rakefile` would
-be welcome.
+Tests run in guard or the default RSpec rake task. `rake` at the command-line will run the tests.
 
 Output files are placed in `spec/tmp` which is created automatically before each
 test run and deleted automatically afterward unless `spec/tmp/.keep` exists. If
