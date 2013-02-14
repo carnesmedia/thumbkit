@@ -101,6 +101,23 @@ describe Thumbkit::Processor::Text do
       # Manually check the file to verify unicode stuff worked
     end
 
+    context 'with a large file' do
+      let(:fixture) { 'largish_file.txt' }
+      let(:options) { {
+        width: 300, height: 240,
+        colors: { foreground: '#808080', background: '#f6f6f4' },
+        font: { family: 'Helvetica', pointsize: '16' },
+      } }
+
+      let(:outfile) { path_for_output('largish_file.png').to_s }
+
+
+      # FIXME: This doesn't even fail, it just hangs. FIX! (see #16)
+      # it('writes a file') { File.should exist(subject) }
+      # its_size_should_be('300x240')
+      # its_mimetype_should_be('image/png')
+    end
+
     context 'with an arabic file' do
       let(:options) { { font: { direction: :auto } } }
       let(:fixture) { 'arabic.txt' }

@@ -83,7 +83,9 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
   def run(command_builder)
     command = command_builder.command
 
+    puts "\t\tcommand: #{command.inspect}"
     sub = Subexec.run(command, timeout: MiniMagick.timeout)
+    puts "\t\tsub:#{sub.inspect}"
 
     if sub.exitstatus != 0
 
