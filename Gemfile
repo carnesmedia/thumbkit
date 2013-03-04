@@ -10,6 +10,7 @@ gem 'rspec'
 gem 'guard'
 gem 'guard-rspec'
 gem 'guard-bundler'
+gem 'rb-fsevent'
 
 gem 'mini_magick'
 gem 'waveform', git: 'https://github.com/amiel/waveform', branch: 'thumbkit'
