@@ -7,18 +7,24 @@ class Thumbkit
 
   def self.defaults
     @defaults ||= Thumbkit::Options.new({
+      # Processing timeout
+      timeout: MiniMagick.timeout || 25,
+
       width: 200,
       height: 200,
+
       # Whether or not we crop to fill the entire thumbnail size.
       # Only affects images.
       crop: true,
       # Run `identify -list Gravity` for a list of available options
       gravity: 'Center',
+
       colors: {
         # Colors must be 6-digit hex
         background: '#eeeeee',
         foreground: '#888888',
       },
+
       font: {
         # Run `identify -list Font` for available font options
         family: 'Helvetica',
