@@ -51,6 +51,28 @@ describe Thumbkit, '.defaults' do
   it 'returns defaults for font' do
     subject.should have_key(:font)
   end
+
+  context 'with a MiniMagick timeout set' do
+    before do
+      Thumbkit.reset_defaults!
+      MiniMagick.timeout = 42
+    end
+
+    it 'uses the minimagick timeout' do
+      subject.fetch(:timeout).should == 42
+    end
+  end
+
+  context 'without a MiniMagick timeout set' do
+    before do
+      Thumbkit.reset_defaults!
+      MiniMagick.timeout = nil
+    end
+
+    it 'has a timeout by default' do
+      subject.fetch(:timeout).should_not be_nil
+    end
+  end
 end
 
 

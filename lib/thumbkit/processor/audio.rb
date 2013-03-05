@@ -6,6 +6,7 @@ class Thumbkit::Processor::Audio < Thumbkit::Processor
     self.class.force_extension(path, 'png')
   end
 
+  # TODO: Add support for options[:timeout]
   def write
     Waveform.new(path).generate(outfile, build_options)
 

@@ -36,6 +36,10 @@ describe Thumbkit::Processor::Text do
       File.basename(subject).should == 'text-test.png'
     end
 
+    it 'reads the files content' do
+      processor.text_content.should == File.read(path)
+    end
+
     it 'writes a file' do
       File.should exist(subject)
     end
@@ -95,10 +99,80 @@ describe Thumbkit::Processor::Text do
       let(:options) { { width: 400, height: 400 } }
       let(:outfile) { path_for_output('greek.png').to_s }
       it('writes a file') { File.should exist(subject) }
-      it('autodetects left-to-right') { processor.__send__(:direction).should == 'left-to-right' }
+      it('autodetects left-to-right') { processor.direction.should == 'left-to-right' }
       its_size_should_be('400x400')
       its_mimetype_should_be('image/png')
       # Manually check the file to verify unicode stuff worked
+    end
+
+    context 'with a large file' do
+      let(:fixture) { 'largish_file.txt' }
+      let(:options) { {
+        # Shorter timeout so the tests don't run so long.
+        timeout: 5,
+        width: 300, height: 240,
+        colors: { foreground: '#808080', background: '#f6f6f4' },
+        font: { family: 'Helvetica', pointsize: '16' },
+      } }
+
+      let(:outfile) { path_for_output('largish_file.png').to_s }
+
+      # It should not fail anymore
+      # it 'raises an error instead of stalling' do
+      #   expect { subject }.to raise_error
+      # end
+
+      # it('does not write a file') { subject rescue nil; File.should_not exist(subject) }
+
+      it('writes a file') { File.should exist(subject) }
+      its_size_should_be('300x240')
+      its_mimetype_should_be('image/png')
+    end
+
+    context 'given a file with a lot of lines' do
+      let(:fixture) { 'long_file.txt' }
+
+      it 'only returns the first few lines' do
+        processor.text_content.split("\n").size.should be < 40
+      end
+    end
+
+    context 'given a file with very long lines' do
+      let(:fixture) { 'long_lines.txt' }
+
+      it 'shortens lines' do
+        processor.text_content.split("\n").map(&:length).max.should be < 80
+      end
+    end
+
+    describe 'the line shortener' do
+      let(:path) { 'HACK_STUB' }
+      let(:test_string) {
+<<-TEST_STRING
+aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiiijjjjjjjjjj
+kkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrrrssssssssssttttttttttuuuuuuuuuu
+vvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzz
+aaaaaaaaaa
+TEST_STRING
+      }
+
+      let(:expected) {
+<<-TEST_STRING
+aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhh
+kkkkkkkkkkllllllllllmmmmmmmmmmnnnnnnnnnnooooooooooppppppppppqqqqqqqqqqrrrrrrrrr
+vvvvvvvvvvwwwwwwwwwwxxxxxxxxxxyyyyyyyyyyzzzzzzzzzz
+aaaaaaaaaa
+TEST_STRING
+      }
+
+
+      before do
+        IO.stub(:read).with('HACK_STUB').and_return(test_string)
+      end
+
+      it 'shortens lines correctly' do
+        processor.text_content.should == expected
+      end
     end
 
     context 'with an arabic file' do
@@ -106,7 +180,7 @@ describe Thumbkit::Processor::Text do
       let(:fixture) { 'arabic.txt' }
       let(:outfile) { path_for_output('arabic.png').to_s }
       it('writes a file') { File.should exist(subject) }
-      it('autodetects right-to-left') { processor.__send__(:direction).should == 'right-to-left' }
+      it('autodetects right-to-left') { processor.direction.should == 'right-to-left' }
       its_size_should_be('200x200')
       its_mimetype_should_be('image/png')
       # Manually check the file to verify unicode stuff and right-to-left worked
@@ -117,7 +191,7 @@ describe Thumbkit::Processor::Text do
       let(:fixture) { 'hebrew.txt' }
       let(:outfile) { path_for_output('hebrew.png').to_s }
       it('writes a file') { File.should exist(subject) }
-      it('is right-to-left') { processor.__send__(:direction).should == 'right-to-left' }
+      it('is right-to-left') { processor.direction.should == 'right-to-left' }
       its_size_should_be('400x200')
       its_mimetype_should_be('image/png')
       # Manually check the file to verify unicode stuff and right-to-left worked
@@ -138,7 +212,7 @@ describe Thumbkit::Processor::Text do
       let(:fixture) { 'arabic.txt' }
       let(:outfile) { path_for_output('arabic.jpg').to_s }
       it('writes a file') { File.should exist(subject) }
-      it('autodetects right-to-left') { processor.__send__(:direction).should == 'right-to-left' }
+      it('autodetects right-to-left') { processor.direction.should == 'right-to-left' }
       its_size_should_be('600x400')
       its_mimetype_should_be('image/jpeg')
       # Manually check the file to verify unicode stuff and right-to-left worked

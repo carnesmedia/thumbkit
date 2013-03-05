@@ -1,6 +1,7 @@
 require 'mini_magick'
 
 class Thumbkit::Processor::Image < Thumbkit::Processor
+  # TODO: Add support for options[:timeout]
 
   def determine_outfile
     ext = File.extname(@path)[1..-1].downcase
