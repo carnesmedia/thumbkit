@@ -8,6 +8,10 @@ class Thumbkit
   def self.defaults
     @defaults ||= Thumbkit::Options.new({
       # Processing timeout
+      # Currently this only affects Text processing
+      #
+      # Set MiniMagick.timeout to affect both Text and Image processing.
+      # There is no way to set a timeout for Audio processing.
       timeout: MiniMagick.timeout || 25,
 
       width: 200,
