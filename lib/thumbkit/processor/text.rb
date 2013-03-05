@@ -16,11 +16,8 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
     outfile
   end
 
-  private
-
-
-  def command_builder
-    MiniMagick::CommandBuilder.new('mogrify')
+  def text_content
+    @_text_content ||= shorten_lines(IO.read(path))
   end
 
   # Regexes copies from www.frequency-decoder.com/demo/detect-text-direction/
@@ -38,7 +35,7 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
 
     dir = options[:font][:direction]
     if dir == :auto
-      if /[\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC]/.match(IO.read(path))
+      if /[\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC]/.match(text_content)
         'right-to-left'
       else
         'left-to-right'
@@ -46,6 +43,20 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
     else
       dir
     end
+  end
+
+  private
+
+  def shorten_lines(text)
+    lines = text.lines.take(39).map do |line|
+      line.chomp[0,79] + "\n"
+    end
+
+    lines.join
+  end
+
+  def command_builder
+    MiniMagick::CommandBuilder.new('mogrify')
   end
 
   # Example generated command
@@ -75,7 +86,7 @@ class Thumbkit::Processor::Text < Thumbkit::Processor
       mogrify.gravity 'NorthWest'
       mogrify << '+strip'
       mogrify.write outfile
-      mogrify << "label:@#{path}"
+      mogrify << "label:'#{ text_content }'"
     end
   end
 
